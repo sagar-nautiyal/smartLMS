@@ -15,10 +15,10 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   role: {
+    type: String,
     enum: ["student", "instructor", "admin"],
     default: "student",
   },
-  timestamp: true,
 });
 
 const User = mongoose.model("User", userSchema);
