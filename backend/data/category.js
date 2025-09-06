@@ -1,0 +1,14 @@
+[
+  {
+    name: "Web Development",
+  },
+  {
+    name: "DSA",
+  },
+  {
+    name: "AI/ML",
+  },
+  {
+    name: "Design",
+  },
+];

@@ -5,6 +5,8 @@ import morgan from "morgan";
 import cors from "cors";
 import connectDB from "./config/connectDB.js";
 import userRouter from "./routes/userroute.js";
+import courseRouter from "./routes/courseRoute.js";
+import categoryRouter from "./routes/categoryRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -16,6 +18,10 @@ if (process.env.NODE_ENV === "development") {
 
 //routes
 app.use("/api/users", userRouter);
+//course
+app.use("/api/courses", courseRouter);
+//category
+app.use("/api/categories", categoryRouter);
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => {

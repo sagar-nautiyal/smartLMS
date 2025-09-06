@@ -42,9 +42,13 @@ export default class UserController {
         return res.status(404).json({ message: "enter correct password" });
       }
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign(
+        { id: user._id, role: user.role },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
       return res.status(200).json({ message: "Login successful", token });
     } catch (err) {
       console.log("Error while logging in user", err);
