@@ -1,0 +1,97 @@
+// src/pages/Login.jsx
+import React, { useState } from "react";
+import illustration from "../assets/login.svg"; // Ensure you have an illustration image in this path
+
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Email:", email);
+    console.log("Password:", password);
+  };
+
+  return (
+    <div className="container-fluid vh-100 d-flex align-items-center bg-light">
+      <div
+        className="row w-100 shadow-lg bg-white rounded"
+        style={{ minHeight: "70vh" }}
+      >
+        {/* Left Illustration */}
+        <div className="col-md-6 d-none d-md-flex justify-content-center align-items-center p-4 text-white rounded-start">
+          <div className="text-center">
+            <img
+              src={illustration}
+              alt="Login Illustration"
+              className="img-fluid mb-3"
+              style={{ maxHeight: "300px" }}
+            />
+            <h3 className="fw-bold">Smart Learning</h3>
+            <p className="small">
+              Access your courses, track progress, and achieve more.
+            </p>
+          </div>
+        </div>
+
+        {/* Right Form */}
+        <div className="col-md-6 d-flex justify-content-center align-items-center p-4">
+          <div className="w-100" style={{ maxWidth: "400px" }}>
+            <h3 className="text-center mb-4">Welcome Back</h3>
+
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="form-control"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="mb-2">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  className="form-control"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="d-flex justify-content-end mb-3">
+                <a href="#" className="small text-decoration-none">
+                  Forgot password?
+                </a>
+              </div>
+
+              <button type="submit" className="btn btn-primary w-100 mb-3">
+                Login
+              </button>
+            </form>
+
+            <p className="text-center mb-0">
+              Don’t have an account?{" "}
+              <a href="#" className="text-decoration-none">
+                Sign up
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Login;
