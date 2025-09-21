@@ -2,15 +2,28 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import illustration from "../assets/login.svg"; // Ensure you have an illustration image in this path
+import { useDispatch } from "react-redux";
+import { loginthunk } from "../reducer/AuthReducer";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+    const formData = new FormData(e.target);
+    const userData = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    try {
+      await dispatch(loginthunk(userData)).unwrap();
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -50,8 +63,7 @@ function Login() {
                   id="email"
                   className="form-control"
                   placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  name="email"
                   required
                 />
               </div>
@@ -65,8 +77,7 @@ function Login() {
                   id="password"
                   className="form-control"
                   placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="password"
                   required
                 />
               </div>
