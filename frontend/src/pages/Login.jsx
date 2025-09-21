@@ -1,5 +1,6 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import illustration from "../assets/login.svg"; // Ensure you have an illustration image in this path
 
 function Login() {
@@ -71,9 +72,9 @@ function Login() {
               </div>
 
               <div className="d-flex justify-content-end mb-3">
-                <a href="#" className="small text-decoration-none">
+                <Link to="#" className="small text-decoration-none">
                   Forgot password?
-                </a>
+                </Link>
               </div>
 
               <button type="submit" className="btn btn-primary w-100 mb-3">
@@ -83,9 +84,9 @@ function Login() {
 
             <p className="text-center mb-0">
               Don’t have an account?{" "}
-              <a href="#" className="text-decoration-none">
+              <Link to="/register" className="text-decoration-none">
                 Sign up
-              </a>
+              </Link>
             </p>
           </div>
         </div>

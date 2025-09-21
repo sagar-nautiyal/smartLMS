@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3">
-      <div className="container-fluid">
+      <div className="container">
         {/* Brand */}
         <Link className="navbar-brand fw-bold text-primary" to="/">
           SmartLMS
@@ -44,7 +44,7 @@ function Navbar() {
             <Link to="/login" className="btn btn-outline-primary me-2">
               Login
             </Link>
-            <Link to="/signup" className="btn btn-primary">
+            <Link to="/register" className="btn btn-primary">
               Sign Up
             </Link>
           </div>
