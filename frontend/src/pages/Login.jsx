@@ -5,6 +5,7 @@ import illustration from "../assets/login.svg"; // Ensure you have an illustrati
 import { useDispatch } from "react-redux";
 import { loginthunk } from "../reducer/AuthReducer";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Login() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function Login() {
 
     try {
       await dispatch(loginthunk(userData)).unwrap();
+      toast.success("Logged in Successfully!");
       navigate("/");
     } catch (err) {
       console.log(err);

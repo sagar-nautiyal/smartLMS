@@ -1,8 +1,27 @@
 // src/components/Navbar.jsx
-import React from "react";
+
 import { Link } from "react-router-dom";
+import { authSelector, logout } from "../../reducer/AuthReducer";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Navbar() {
+  const { currentUser, isAuthenticated } = useSelector(authSelector);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handlLogout = async () => {
+    try {
+      dispatch(logout());
+      toast.success("Logged Out");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast.error("Problem loggin out");
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3">
       <div className="container">
@@ -32,21 +51,32 @@ function Navbar() {
                 Courses
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About
-              </Link>
-            </li>
           </ul>
 
           {/* Right Side Buttons */}
           <div className="d-flex ms-lg-3">
-            <Link to="/login" className="btn btn-outline-primary me-2">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary">
-              Sign Up
-            </Link>
+            <>
+              {isAuthenticated ? (
+                <div className="d-flex align-items-center ms-auto">
+                  <span className="me-3">Hi, {currentUser.name}</span>
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={handlLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link to="/login" className="btn btn-outline-primary me-2">
+                    Login
+                  </Link>
+                  <Link to="/register" className="btn btn-primary">
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </>
           </div>
         </div>
       </div>

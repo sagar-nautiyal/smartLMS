@@ -57,6 +57,7 @@ export default function FeaturedCourses() {
                   </div>
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{course.title}</h5>
+
                     <p className="card-text text-muted small">
                       {course.description}.
                     </p>

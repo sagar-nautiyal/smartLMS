@@ -17,6 +17,7 @@ export default class CourseController {
   async getCourseById(req, res) {
     try {
       const { courseId } = req.params;
+      console.log("CourseID: ", courseId);
       // Logic to fetch course by ID from the database
       const course = await Course.findById(courseId)
         .populate("instructor", "name")

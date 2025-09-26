@@ -3,7 +3,7 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 import User from "../models/UserModel.js";
 
-export default auth = async (req, res, next) => {
+export const auth = async (req, res, next) => {
   if (
     !req.headers.authorization ||
     !req.headers.authorization.startsWith("Bearer")
@@ -15,9 +15,11 @@ export default auth = async (req, res, next) => {
     const token = req.headers["authorization"].split(" ")[1];
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(payload.id).select("-password");
-    res.status(200).send("Logged In Successfull");
+    //res.status(200).send("Logged In Successfull");
     next();
   } catch (err) {
     return res.status(404).send("Invalid Token");
   }
 };
+
+export default auth;

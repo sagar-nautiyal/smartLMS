@@ -49,7 +49,9 @@ export default class UserController {
           expiresIn: "1h",
         }
       );
-      return res.status(200).json({ message: "Login successful", token });
+      return res
+        .status(200)
+        .json({ message: "Login successful", token, name: user.name });
     } catch (err) {
       console.log("Error while logging in user", err);
       return res.status(500).json({ message: "Internal server error" });
