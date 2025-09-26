@@ -7,7 +7,7 @@ export default class CourseController {
       const courses = await Course.find()
         .populate("instructor", "name")
         .populate("category", "name");
-      return res.status(200).json(courses);
+      return res.status(200).json({ data: courses });
     } catch (err) {
       console.log("Error while fetching courses", err);
       return res.status(500).json({ message: "Internal server error" });
