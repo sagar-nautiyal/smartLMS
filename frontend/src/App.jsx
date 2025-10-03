@@ -52,6 +52,19 @@ function App() {
           index: true,
           element: <HomePage />,
         },
+        {
+          path: "courses",
+          children: [
+            {
+              index: true,
+              element: <CoursesPage />,
+            },
+            {
+              path: ":courseId",
+              element: <CourseDetailPage />,
+            },
+          ],
+        },
       ],
     },
     {
@@ -61,19 +74,6 @@ function App() {
     {
       path: "register",
       element: <RegisterUser />,
-    },
-    {
-      path: "courses",
-      children: [
-        {
-          index: true,
-          element: <CoursesPage />,
-        },
-        {
-          path: ":courseId",
-          element: <CourseDetailPage />,
-        },
-      ],
     },
   ]);
 

@@ -7,6 +7,7 @@ import connectDB from "./config/connectDB.js";
 import userRouter from "./routes/userroute.js";
 import courseRouter from "./routes/courseRoute.js";
 import categoryRouter from "./routes/categoryRoute.js";
+import paymentRouter from "./routes/paymentRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -22,6 +23,8 @@ app.use("/api/users", userRouter);
 app.use("/api/courses", courseRouter);
 //category
 app.use("/api/categories", categoryRouter);
+//payment
+app.use("api/payment", paymentRouter);
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => {

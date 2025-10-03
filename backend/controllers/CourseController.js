@@ -27,7 +27,6 @@ export default class CourseController {
       }
       return res.status(200).json(course);
     } catch (err) {
-      console.log("Error while fetching course", err);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
