@@ -16,9 +16,12 @@ import { authSelector, fetchCurrentUser } from "./reducer/AuthReducer";
 function App() {
   const { isLoading } = useSelector(authSelector);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
+    if (token) {
+      dispatch(fetchCurrentUser());
+    }
+  }, [dispatch, token]);
 
   if (isLoading) {
     return (

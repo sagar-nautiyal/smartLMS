@@ -13,6 +13,7 @@ export const getCourse = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("http://localhost:3000/api/courses");
+      //console.log("All courses after calling ...", response.data.data);
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.message);

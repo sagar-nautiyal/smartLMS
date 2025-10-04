@@ -5,6 +5,8 @@ import { authSelector, logout } from "../../reducer/AuthReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { current } from "@reduxjs/toolkit";
 
 function Navbar() {
   const { currentUser, isAuthenticated } = useSelector(authSelector);
@@ -58,7 +60,10 @@ function Navbar() {
             <>
               {isAuthenticated ? (
                 <div className="d-flex align-items-center ms-auto">
-                  <span className="me-3">Hi, {currentUser.name}</span>
+                  {/* { currentUser.name ? currentUser.name : unde} */}
+                  <span className="me-3">
+                    {currentUser ? `Hi,${currentUser.name}` : "Hi"}
+                  </span>
                   <button
                     className="btn btn-outline-danger"
                     onClick={handlLogout}

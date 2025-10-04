@@ -47,9 +47,9 @@ export default function FeaturedCourses() {
                 <div className="card h-100 shadow-lg border-0">
                   <div className="position-relative">
                     <img
-                      src="https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=400&auto=format&fit=crop&q=60"
+                      src={course.imageUrl}
                       className="card-img-top"
-                      alt="Web Development"
+                      alt={course.category.name}
                     />
                     <span className="badge bg-primary position-absolute top-0 end-0 m-2">
                       {course.category.name}

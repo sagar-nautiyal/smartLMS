@@ -21,7 +21,6 @@ export const loginthunk = createAsyncThunk(
         "http://localhost:3000/api/users/login",
         { email, password }
       );
-      console.log("Response from login thunk: ", response.data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);

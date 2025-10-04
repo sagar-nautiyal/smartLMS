@@ -1,5 +1,25 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { courseSelector, getCourse } from "../reducer/CourseReducer";
+import { toast } from "react-toastify";
 export default function CoursesPage() {
+  const { courses } = useSelector(courseSelector);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchAllCourses = async () => {
+      try {
+        await dispatch(getCourse()).unwrap();
+      } catch (er) {
+        console.log("error fetching courses", er);
+        toast.dismiss("Failed to load courses, Please try again later!");
+      }
+    };
+
+    fetchAllCourses();
+  }, [dispatch]);
+
   return (
     <>
       <div className="container my-5">
@@ -106,133 +126,44 @@ export default function CoursesPage() {
           <div className="col-12 col-md-9">
             <div className="row g-4">
               {/* Course 1 */}
-              <div className="col-12 col-md-6 d-flex">
-                <div
-                  className="card flex-fill border-0 bg-white shadow-sm hover-shadow-lg hover-scale transition position-relative"
-                  style={{ cursor: "pointer" }}
-                >
-                  {/* Category Badge */}
-                  <span className="badge bg-primary position-absolute top-0 end-0 mt-3 me-3">
-                    Web Dev
-                  </span>
-                  <img
-                    src="https://via.placeholder.com/500x300"
-                    className="card-img-top"
-                    alt="Course 1"
-                    style={{ height: "220px", objectFit: "cover" }}
-                  />
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title fw-bold fs-4 text-dark">
-                      Intro to Web Dev
-                    </h5>
-                    <p className="card-text text-muted small flex-grow-1">
-                      Learn HTML, CSS, and JS basics with hands‑on projects.
-                    </p>
-                    <div className="d-flex justify-content-between align-items-center mt-auto">
-                      <span className="fw-bold text-primary fs-5">$29.99</span>
-                      <Link to="/courses/1" className="btn btn-primary btn-sm">
-                        View
-                      </Link>
+              {courses.map((course) => (
+                <div className="col-12 col-md-6 d-flex" key={course._id}>
+                  <div
+                    className="card flex-fill border-0 bg-white shadow-sm hover-shadow-lg hover-scale transition position-relative"
+                    style={{ cursor: "pointer" }}
+                  >
+                    {/* Category Badge */}
+                    <span className="badge bg-primary position-absolute top-0 end-0 mt-3 me-3">
+                      {course.category.name}
+                    </span>
+                    <img
+                      src={course.imageUrl}
+                      className="card-img-top"
+                      alt="Course 1"
+                      style={{ height: "220px", objectFit: "cover" }}
+                    />
+                    <div className="card-body d-flex flex-column">
+                      <h5 className="card-title fw-bold fs-4 text-dark">
+                        {course.title}
+                      </h5>
+                      <p className="card-text text-muted small flex-grow-1">
+                        {course.description}.
+                      </p>
+                      <div className="d-flex justify-content-between align-items-center mt-auto">
+                        <span className="fw-bold text-primary fs-5">
+                          $29.99
+                        </span>
+                        <Link
+                          to={`/courses/${course._id}`}
+                          className="btn btn-primary btn-sm"
+                        >
+                          View
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Course 2 */}
-              <div className="col-12 col-md-6 d-flex">
-                <div
-                  className="card flex-fill border-0 bg-white shadow-sm hover-shadow-lg hover-scale transition position-relative"
-                  style={{ cursor: "pointer" }}
-                >
-                  <span className="badge bg-success position-absolute top-0 end-0 mt-3 me-3">
-                    Computer Science
-                  </span>
-                  <img
-                    src="https://via.placeholder.com/500x300"
-                    className="card-img-top"
-                    alt="Course 2"
-                    style={{ height: "220px", objectFit: "cover" }}
-                  />
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title fw-bold fs-4 text-dark">
-                      Data Structures
-                    </h5>
-                    <p className="card-text text-muted small flex-grow-1">
-                      Master arrays, stacks, queues, and linked lists.
-                    </p>
-                    <div className="d-flex justify-content-between align-items-center mt-auto">
-                      <span className="fw-bold text-primary fs-5">$39.99</span>
-                      <Link to="/courses/2" className="btn btn-primary btn-sm">
-                        View
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Course 3 */}
-              <div className="col-12 col-md-6 d-flex">
-                <div
-                  className="card flex-fill border-0 bg-white shadow-sm hover-shadow-lg hover-scale transition position-relative"
-                  style={{ cursor: "pointer" }}
-                >
-                  <span className="badge bg-warning text-dark position-absolute top-0 end-0 mt-3 me-3">
-                    Frontend
-                  </span>
-                  <img
-                    src="https://via.placeholder.com/500x300"
-                    className="card-img-top"
-                    alt="Course 3"
-                    style={{ height: "220px", objectFit: "cover" }}
-                  />
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title fw-bold fs-4 text-dark">
-                      React Essentials
-                    </h5>
-                    <p className="card-text text-muted small flex-grow-1">
-                      Build modern UIs with components, hooks, and state.
-                    </p>
-                    <div className="d-flex justify-content-between align-items-center mt-auto">
-                      <span className="fw-bold text-primary fs-5">$49.99</span>
-                      <Link to="/courses/3" className="btn btn-primary btn-sm">
-                        View
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Course 4 */}
-              <div className="col-12 col-md-6 d-flex">
-                <div
-                  className="card flex-fill border-0 bg-white shadow-sm hover-shadow-lg hover-scale transition position-relative"
-                  style={{ cursor: "pointer" }}
-                >
-                  <span className="badge bg-danger position-absolute top-0 end-0 mt-3 me-3">
-                    Backend
-                  </span>
-                  <img
-                    src="https://via.placeholder.com/500x300"
-                    className="card-img-top"
-                    alt="Course 4"
-                    style={{ height: "220px", objectFit: "cover" }}
-                  />
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title fw-bold fs-4 text-dark">
-                      Backend with Node.js
-                    </h5>
-                    <p className="card-text text-muted small flex-grow-1">
-                      Learn to build scalable APIs with Express and MongoDB.
-                    </p>
-                    <div className="d-flex justify-content-between align-items-center mt-auto">
-                      <span className="fw-bold text-primary fs-5">$59.99</span>
-                      <Link to="/courses/4" className="btn btn-primary btn-sm">
-                        View
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

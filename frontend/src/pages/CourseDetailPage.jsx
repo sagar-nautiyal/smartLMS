@@ -58,22 +58,16 @@ export default function CourseDetailPage() {
           {/* Main Content */}
           <div className="col-12 col-lg-8">
             {/* Course Header */}
-            <h2 className="fw-bold mb-2">
-              Full‑Stack Web Development Bootcamp
-            </h2>
-            <p className="text-muted mb-3">
-              Learn how to build modern web applications with React, Node.js,
-              Express, and MongoDB.
-            </p>
+            <h2 className="fw-bold mb-2">{currentCourse?.title}</h2>
+            <p className="text-muted mb-3">{currentCourse?.description}</p>
             <div className="d-flex align-items-center mb-4">
               <img
-                src="https://via.placeholder.com/50"
+                src={currentCourse?.imageUrl}
                 alt="Instructor"
-                className="rounded-circle me-2"
+                className=" me-2"
               />
               <div>
-                <h6 className="mb-0">John Doe</h6>
-                <small className="text-muted">Senior Software Engineer</small>
+                <h6 className="mb-0">{currentCourse?.instructor.name}</h6>
               </div>
             </div>
 
@@ -218,7 +212,7 @@ export default function CourseDetailPage() {
           <div className="col-12 col-lg-4">
             <div className="card shadow-sm sticky-top" style={{ top: "80px" }}>
               <img
-                src="https://via.placeholder.com/600x400"
+                src={currentCourse?.imageUrl}
                 className="card-img-top"
                 alt="Course Thumbnail"
               />
