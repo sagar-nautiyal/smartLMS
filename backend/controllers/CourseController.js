@@ -17,7 +17,6 @@ export default class CourseController {
   async getCourseById(req, res) {
     try {
       const { courseId } = req.params;
-      console.log("CourseID: ", courseId);
       // Logic to fetch course by ID from the database
       const course = await Course.findById(courseId)
         .populate("instructor", "name")
@@ -28,6 +27,47 @@ export default class CourseController {
       return res.status(200).json(course);
     } catch (err) {
       return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  //enroll user
+  async enrollStudentInCourse(req, res) {
+    try {
+      //enroll user into course
+      //courseId
+      const { courseId } = req.params;
+      // Logic to fetch course by ID from the database
+      const course = await Course.findById(courseId);
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+
+      //validate if uer already purchased
+      if (course.enrolledStudents.includes(req.user.id)) {
+        return res
+          .status(400)
+          .json({ message: "You are already enrolled for this course" });
+      }
+
+      //update userId in enrolledStudents
+      course.enrolledStudents.push(req.user.id);
+      await course.save();
+      return res
+        .status(200)
+        .json({ message: "User is SuccessFully enrolled for this course" });
+    } catch (err) {
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //fetch the enrolled User
+  async myCourses(req, res) {
+    try {
+      //get my courses
+      const courses = await Course.find({ enrolledStudents: req.user.id });
+      return res.status(200).json(courses);
+    } catch (err) {
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }
