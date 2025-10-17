@@ -6,7 +6,7 @@ const getInitialState = () => {
 
   return {
     currentUser: null,
-    isLoading: false,
+    isLoading: true,
     error: null,
     isAuthenticated: !!token,
   };

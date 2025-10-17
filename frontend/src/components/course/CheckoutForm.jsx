@@ -5,7 +5,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useSelector } from "react-redux";
 import { paymentSelector } from "../../reducer/PaymentReducer";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 export const CheckoutForm = () => {
   const { isLoading, error } = useSelector(paymentSelector);
   const stripe = useStripe();

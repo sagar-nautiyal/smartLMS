@@ -12,6 +12,9 @@ import CourseDetailPage from "./pages/CourseDetailPage";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector, fetchCurrentUser } from "./reducer/AuthReducer";
+import PrivateRoute from "./components/PrivateRoute";
+import LearningPage from "./pages/LearningPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   const { isLoading } = useSelector(authSelector);
@@ -66,6 +69,14 @@ function App() {
               path: ":courseId",
               element: <CourseDetailPage />,
             },
+            {
+              path: ":courseId/checkout",
+              element: (
+                <PrivateRoute>
+                  <CheckoutPage />
+                </PrivateRoute>
+              ),
+            },
           ],
         },
       ],
@@ -77,6 +88,16 @@ function App() {
     {
       path: "register",
       element: <RegisterUser />,
+    },
+    {
+      path: "myLearning",
+      element: <PrivateRoute />,
+      children: [
+        {
+          index: true,
+          element: <LearningPage />,
+        },
+      ],
     },
   ]);
 

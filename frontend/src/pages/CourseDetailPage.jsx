@@ -1,8 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { courseSelector } from "../reducer/CourseReducer";
 import { fetchCurrentCourse } from "../reducer/CourseReducer";
@@ -218,7 +217,12 @@ export default function CourseDetailPage() {
               />
               <div className="card-body">
                 <h4 className="fw-bold text-primary mb-3">$49.99</h4>
-                <button className="btn btn-primary w-100 mb-2">Buy Now</button>
+                <Link
+                  to={`/courses/${currentCourse?._id}/checkout`}
+                  className="btn btn-primary w-100 mb-2"
+                >
+                  Buy Now
+                </Link>
                 <button className="btn btn-outline-secondary w-100 mb-3">
                   Add to Cart
                 </button>

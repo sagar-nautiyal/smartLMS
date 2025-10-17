@@ -4,6 +4,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export default class PaymentController {
   async createPaymentIntent(req, res) {
     const { amount } = req.body;
+    console.log("Amount to be sent to stripe: ", amount);
     try {
       const args = {
         amount: amount,
@@ -14,7 +15,7 @@ export default class PaymentController {
       };
       //create payment intent
       const paymentIntent = await stripe.paymentIntents.create(args);
-      console.log(paymentIntent.client_secret);
+      console.log("response from stripe to our server", paymentIntent);
 
       //returning back to client
       return res
