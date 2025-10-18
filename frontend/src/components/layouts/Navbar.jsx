@@ -5,8 +5,6 @@ import { authSelector, logout } from "../../reducer/AuthReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
-import { current } from "@reduxjs/toolkit";
 
 function Navbar() {
   const { currentUser, isAuthenticated } = useSelector(authSelector);

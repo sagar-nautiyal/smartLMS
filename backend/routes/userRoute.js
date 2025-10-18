@@ -16,4 +16,12 @@ userRouter.get("/me", auth, (req, res) => {
   return res.json(req.user);
 });
 
+userRouter.put("/profile", auth, (req, res) => {
+  userController.updateUserProfile(req, res);
+});
+
+userRouter.get("/profile", auth, (req, res) => {
+  userController.getUserProfile(req, res);
+});
+
 export default userRouter;

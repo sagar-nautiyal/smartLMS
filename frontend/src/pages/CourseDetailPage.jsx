@@ -122,9 +122,9 @@ export default function CourseDetailPage() {
                 alt="Instructor"
                 className=" me-2"
               />
-              <div>
+              {/* <div>
                 <h6 className="mb-0">{currentCourse?.instructor.name}</h6>
-              </div>
+              </div> */}
             </div>
 
             {/* Tabs */}

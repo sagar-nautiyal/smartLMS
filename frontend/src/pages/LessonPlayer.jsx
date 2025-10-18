@@ -84,48 +84,52 @@ export default function LessonPlayer() {
     <div className="container-fluid">
       <div className="row">
         {/* Sidebar: Lessons */}
-        <aside className="col-12 col-md-4 col-lg-3 border-end vh-100 overflow-auto p-3">
-          <h5 className="fw-bold mb-3">{currentCourse?.title}</h5>
-          {currentCourse?.modules?.map((module, mIndex) => (
-            <div key={mIndex} className="mb-3">
-              <h6 className="fw-semibold">{module.title}</h6>
-              <ul className="list-group list-group-flush">
-                {module.lessons.map((lesson, lIndex) => (
-                  <li
-                    key={lIndex}
-                    className={`list-group-item list-group-item-action ${
-                      selectedLesson?.title === lesson.title ? "active" : ""
-                    }`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => setSelectedLesson(lesson)}
-                  >
-                    {lesson.title}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <aside className="col-12 col-md-4 col-lg-3 bg-light border-end p-3 vh-100 d-flex flex-column">
+          <h5 className="fw-bold mb-4 text-primary">{currentCourse?.title}</h5>
+          <div className="flex-grow-1 overflow-auto">
+            {currentCourse?.modules?.map((module, mIndex) => (
+              <div key={mIndex} className="mb-4">
+                <h6 className="fw-semibold text-secondary">{module.title}</h6>
+                <ul className="list-group list-group-flush">
+                  {module.lessons.map((lesson, lIndex) => (
+                    <li
+                      key={lIndex}
+                      className={`list-group-item list-group-item-action rounded-3 mb-2 shadow-sm ${
+                        selectedLesson?.title === lesson.title ? "active" : ""
+                      }`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setSelectedLesson(lesson)}
+                    >
+                      {lesson.title}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </aside>
 
         {/* Main Content: Video Player */}
-        <main className="col-12 col-md-8 col-lg-9 p-4">
+        <main className="col-12 col-md-8 col-lg-9 p-4 bg-white d-flex flex-column">
           {selectedLesson ? (
             <>
               <h4 className="fw-bold mb-3">{selectedLesson.title}</h4>
-              <div className="ratio ratio-16x9 mb-3">
-                {/* Replace with your video player integration */}
-                <iframe
-                  src={selectedLesson.videoUrl}
-                  title={selectedLesson.title}
-                  allowFullScreen
-                ></iframe>
+              <div className="card shadow-sm mb-3 border-0">
+                <div className="ratio ratio-16x9">
+                  <iframe
+                    src={selectedLesson.videoUrl}
+                    title={selectedLesson.title}
+                    allowFullScreen
+                    className="rounded-3"
+                  ></iframe>
+                </div>
               </div>
               <p className="text-muted">
                 Now playing: <strong>{selectedLesson.title}</strong>
               </p>
             </>
           ) : (
-            <div className="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+            <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1 text-muted">
               <p>Select a lesson from the left to start learning</p>
             </div>
           )}

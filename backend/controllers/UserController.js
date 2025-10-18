@@ -57,4 +57,44 @@ export default class UserController {
       return res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  async getUserProfile(req, res) {
+    try {
+      const user = await User.findById(req.user._id);
+      if (!user) {
+        return res.status(404).json({ message: "user not found" });
+      }
+
+      return res
+        .status(200)
+        .json({ id: user._id, name: user.name, email: user.email });
+    } catch (err) {
+      return res.status(500).json({ message: "Internal Server error" });
+    }
+  }
+
+  //update
+  async updateUserProfile(req, res) {
+    try {
+      const { name, email } = req.body;
+      const user = await User.findById(req.user._id);
+      if (!user) {
+        return res.status(404).json({ message: "user not found" });
+      }
+      user.name = name ? name : user.name;
+      user.email = email ? email : user.email;
+
+      const updatedUser = await user.save();
+
+      return res
+        .status(200)
+        .json({
+          id: user._id,
+          name: updatedUser.name,
+          email: updatedUser.email,
+        });
+    } catch (err) {
+      return res.status(500).json({ message: "Internal Server error" });
+    }
+  }
 }

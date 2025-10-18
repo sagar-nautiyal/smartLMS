@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { updateUser } from "../services/userServices";
 
 const getInitialState = () => {
   const token = localStorage.getItem("token");
@@ -13,6 +14,7 @@ const getInitialState = () => {
 };
 
 const INTITIALSTATE = getInitialState();
+//login
 export const loginthunk = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -42,6 +44,19 @@ export const fetchCurrentUser = createAsyncThunk(
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
+    }
+  }
+);
+
+//update userInfo
+
+export const updateUserInfo = createAsyncThunk(
+  "user/update",
+  async ({ name, email }, { rejectWithValue }) => {
+    try {
+      return await updateUser(name, email);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -87,6 +102,20 @@ const authSlice = createSlice({
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = false;
+        state.error = action.payload;
+      });
+    builder
+      .addCase(updateUserInfo.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUserInfo.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       });
   },

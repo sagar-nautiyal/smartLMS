@@ -16,6 +16,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import LearningPage from "./pages/LearningPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import LessonPlayer from "./pages/LessonPlayer";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
   const { isLoading } = useSelector(authSelector);
@@ -80,6 +81,30 @@ function App() {
             },
           ],
         },
+        {
+          path: "myLearning",
+          element: <PrivateRoute />,
+          children: [
+            {
+              index: true,
+              element: <LearningPage />,
+            },
+            {
+              path: "learn/courses/:id",
+              element: <LessonPlayer />,
+            },
+          ],
+        },
+        {
+          path: "user",
+          element: <PrivateRoute />,
+          children: [
+            {
+              index: true,
+              element: <UserProfilePage />,
+            },
+          ],
+        },
       ],
     },
     {
@@ -89,20 +114,6 @@ function App() {
     {
       path: "register",
       element: <RegisterUser />,
-    },
-    {
-      path: "myLearning",
-      element: <PrivateRoute />,
-      children: [
-        {
-          index: true,
-          element: <LearningPage />,
-        },
-        {
-          path: "learn/courses/:id",
-          element: <LessonPlayer />,
-        },
-      ],
     },
   ]);
 
