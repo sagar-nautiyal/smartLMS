@@ -6,14 +6,14 @@ import {
 import { useSelector } from "react-redux";
 import { paymentSelector } from "../../reducer/PaymentReducer";
 import { toast } from "react-toastify";
-export const CheckoutForm = () => {
+export const CheckoutForm = ({ clientSecret }) => {
   const { isLoading, error } = useSelector(paymentSelector);
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (!stripe || !elements) return;
     const { error } = await stripe.confirmPayment({
       // `Elements` instance that's used to create the Express Checkout Element.
       elements,
@@ -29,10 +29,11 @@ export const CheckoutForm = () => {
     if (error) {
       // This point is reached only if there's an immediate error when confirming the payment. Show the error to your customer (for example, payment details incomplete).
       toast.error(error.message);
-    } else {
-      // Your customer will be redirected to your `return_url`.
-      toast.error("Something went wrong! Please try again.");
     }
+    // } else {
+    //   // Your customer will be redirected to your `return_url`.
+    //   toast.error("Something went wrong! Please try again.");
+    // }
   };
   return (
     <>

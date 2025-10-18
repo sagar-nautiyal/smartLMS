@@ -7,7 +7,7 @@ export default class PaymentController {
     console.log("Amount to be sent to stripe: ", amount);
     try {
       const args = {
-        amount: amount,
+        amount: amount * 100,
         currency: "usd",
         automatic_payment_methods: {
           enabled: true,

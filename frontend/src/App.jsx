@@ -15,6 +15,7 @@ import { authSelector, fetchCurrentUser } from "./reducer/AuthReducer";
 import PrivateRoute from "./components/PrivateRoute";
 import LearningPage from "./pages/LearningPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import LessonPlayer from "./pages/LessonPlayer";
 
 function App() {
   const { isLoading } = useSelector(authSelector);
@@ -96,6 +97,10 @@ function App() {
         {
           index: true,
           element: <LearningPage />,
+        },
+        {
+          path: "learn/courses/:id",
+          element: <LessonPlayer />,
         },
       ],
     },

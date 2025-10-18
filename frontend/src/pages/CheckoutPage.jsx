@@ -44,7 +44,7 @@ export default function CheckoutPage() {
           createPaymentIntentThunk(amount)
         ).unwrap();
         console.log("response for client secret", response);
-        setClientSecret(response.clientSecret);
+        setClientSecret(response.client_secret);
       } catch (err) {
         toast.error("Something went wrong");
       }

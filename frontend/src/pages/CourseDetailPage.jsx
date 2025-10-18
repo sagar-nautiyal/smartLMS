@@ -29,22 +29,79 @@ export default function CourseDetailPage() {
 
   if (isLoading) {
     return (
-      <div>
-        <h1>
-          <Skeleton width={300} />
-        </h1>
-        <p>
-          <Skeleton count={3} />
-        </p>
-        <p>
-          <Skeleton width={200} />
-        </p>
-        <p>
-          <Skeleton width={150} />
-        </p>
-        <div>
-          <Skeleton width={100} height={40} style={{ marginRight: 10 }} />
-          <Skeleton width={100} height={40} />
+      <div className="container my-5">
+        <div className="row g-4">
+          {/* Main Content */}
+          <div className="col-12 col-lg-8">
+            {/* Title + Description */}
+            <h2>
+              <Skeleton width={400} />
+            </h2>
+            <p>
+              <Skeleton count={2} />
+            </p>
+
+            {/* Instructor */}
+            <div className="d-flex align-items-center mb-4">
+              <Skeleton
+                circle
+                width={40}
+                height={40}
+                style={{ marginRight: 10 }}
+              />
+              <Skeleton width={120} />
+            </div>
+
+            {/* Tabs */}
+            <div className="d-flex mb-3">
+              <Skeleton width={100} height={30} style={{ marginRight: 10 }} />
+              <Skeleton width={100} height={30} style={{ marginRight: 10 }} />
+              <Skeleton width={100} height={30} style={{ marginRight: 10 }} />
+              <Skeleton width={100} height={30} />
+            </div>
+
+            {/* Tab Content */}
+            <div>
+              <h5>
+                <Skeleton width={200} />
+              </h5>
+              <ul>
+                <li>
+                  <Skeleton width={250} />
+                </li>
+                <li>
+                  <Skeleton width={220} />
+                </li>
+                <li>
+                  <Skeleton width={180} />
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="col-12 col-lg-4">
+            <div className="card shadow-sm sticky-top" style={{ top: "80px" }}>
+              <Skeleton height={200} /> {/* Course image */}
+              <div className="card-body">
+                <h4>
+                  <Skeleton width={100} />
+                </h4>
+                <div className="mb-2">
+                  <Skeleton width={200} height={40} />
+                </div>
+                <div className="mb-3">
+                  <Skeleton width={200} height={40} />
+                </div>
+                <p>
+                  <Skeleton width={150} />
+                </p>
+                <p>
+                  <Skeleton width={180} />
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

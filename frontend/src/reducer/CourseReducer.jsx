@@ -6,6 +6,7 @@ const INTITIALSTATE = {
   courses: [],
   isLoading: false,
   error: null,
+  userCourses: [],
 };
 
 export const getCourse = createAsyncThunk(
@@ -32,6 +33,27 @@ export const fetchCurrentCourse = createAsyncThunk(
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
+    }
+  }
+);
+
+//fetch courses user is enrolled
+export const fetchUserCourses = createAsyncThunk(
+  "courses/fetchUserCourses",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "http://localhost:3000/api/courses/my-courses",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue("Error while fetching user Course: ", err);
     }
   }
 );
@@ -66,6 +88,20 @@ const courseSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCurrentCourse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+    builder
+      .addCase(fetchUserCourses.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserCourses.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userCourses = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchUserCourses.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

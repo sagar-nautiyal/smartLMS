@@ -12,6 +12,6 @@ export const createPaymentIntent = async (amount) => {
       },
     }
   );
-  console.log("Payload from frontend", res.data);
-  return res.data.data;
+  console.log("Payload from backend", res.data);
+  return res.data;
 };
