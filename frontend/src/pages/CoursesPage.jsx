@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { courseSelector, getCourse } from "../reducer/CourseReducer";
+import {
+  courseSelector,
+  fetchFilteredCourses,
+  getCourse,
+} from "../reducer/CourseReducer";
+import { getCategories } from "../services/Categories";
 import { toast } from "react-toastify";
 export default function CoursesPage() {
+  const [filters, setFilters] = useState({
+    search: "",
+    categories: [],
+    level: "",
+    maxPrice: 1000,
+  });
+  const [categories, setCategories] = useState([]);
   const { courses } = useSelector(courseSelector);
   const dispatch = useDispatch();
 
@@ -19,6 +31,76 @@ export default function CoursesPage() {
 
     fetchAllCourses();
   }, [dispatch]);
+
+  //get categories for filter
+  useEffect(() => {
+    const getAllCategories = async () => {
+      try {
+        const allCategories = await getCategories();
+        setCategories(allCategories);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getAllCategories();
+  }, []);
+
+  //filtering the products
+  const handleChange = (e) => {
+    const { name, value, type, checked, id } = e.target;
+    if (type == "checkbox") {
+      setFilters((prev) => {
+        let updated = [...prev.categories];
+        if (checked) {
+          updated.push(id);
+        } else {
+          updated = updated.filter((c) => c !== id);
+        }
+
+        return { ...prev, categories: updated };
+      });
+    } else {
+      if (type == "radio") {
+        setFilters((prev) => ({ ...prev, [name]: id }));
+      } else {
+        setFilters((prev) => ({ ...prev, [name]: value }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const params = new URLSearchParams();
+      if (filters.search) params.append("search", filters.search);
+      if (filters.categories.length > 0)
+        params.append("categories", filters.categories.join(","));
+      if (filters.level) params.append("level", filters.level);
+      if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
+
+      dispatch(fetchFilteredCourses(params.toString()));
+    }, 400); // wait 400ms after typing
+
+    return () => clearTimeout(handler);
+  }, [filters, dispatch]);
+
+  //apply filters
+  // const applyfilters = async () => {
+  //   const params = new URLSearchParams();
+
+  //   if (filters.search) params.append("search", filters.search);
+  //   if (filters.categories.length > 0)
+  //     params.append("categories", filters.categories.join(","));
+  //   if (filters.level) params.append("level", filters.level);
+  //   if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
+
+  //   try {
+  //     await dispatch(fetchFilteredCourses(params.toString())).unwrap();
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast.dismiss("Unable to fetch the courses");
+  //   }
+  // };
 
   return (
     <>
@@ -45,6 +127,9 @@ export default function CoursesPage() {
                   className="form-control"
                   placeholder="Search courses..."
                   aria-label="Search courses"
+                  value={filters.search}
+                  name="search"
+                  onChange={handleChange}
                 />
                 <button className="btn btn-primary" type="button">
                   <i className="bi bi-search"></i>
@@ -59,26 +144,19 @@ export default function CoursesPage() {
                 {/* Category */}
                 <div className="mb-3">
                   <h6 className="fw-semibold text-secondary">Category</h6>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="web"
-                    />
-                    <label className="form-check-label" htmlFor="web">
-                      Web Development
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="cs"
-                    />
-                    <label className="form-check-label" htmlFor="cs">
-                      Computer Science
-                    </label>
-                  </div>
+                  {categories?.map((category) => (
+                    <div className="form-check" key={category._id}>
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id={category._id}
+                        onChange={handleChange}
+                      />
+                      <label className="form-check-label" htmlFor="web">
+                        {category.name}
+                      </label>
+                    </div>
+                  ))}
                 </div>
                 {/* Level */}
                 <div className="mb-3">
@@ -89,6 +167,7 @@ export default function CoursesPage() {
                       type="radio"
                       name="level"
                       id="beginner"
+                      onChange={handleChange}
                     />
                     <label className="form-check-label" htmlFor="beginner">
                       Beginner
@@ -100,6 +179,7 @@ export default function CoursesPage() {
                       type="radio"
                       name="level"
                       id="advanced"
+                      onChange={handleChange}
                     />
                     <label className="form-check-label" htmlFor="advanced">
                       Advanced
@@ -113,11 +193,19 @@ export default function CoursesPage() {
                     type="range"
                     className="form-range"
                     min="0"
-                    max="100"
+                    name="maxPrice"
+                    max="1000"
+                    value={filters.maxPrice}
+                    onChange={handleChange}
                   />
                   <small className="text-muted">Up to $100</small>
                 </div>
-                <button className="btn btn-primary w-100">Apply Filters</button>
+                {/* <button
+                  className="btn btn-primary w-100"
+                  onClick={applyfilters}
+                >
+                  Apply Filters
+                </button> */}
               </div>
             </div>
           </aside>

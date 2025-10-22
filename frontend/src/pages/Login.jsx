@@ -22,7 +22,7 @@ function Login() {
     try {
       await dispatch(loginthunk(userData)).unwrap();
       toast.success("Logged in Successfully!");
-      navigate("/");
+      navigate(-1);
     } catch (err) {
       console.log(err);
     }

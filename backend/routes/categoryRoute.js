@@ -8,5 +8,8 @@ const categoryController = new CategoryController();
 categoryRouter.get("/", (req, res) => {
   categoryController.getCategories(req, res);
 });
+categoryRouter.get("/filters", (req, res) => {
+  categoryController.filterCategories(req, res);
+});
 
 export default categoryRouter;

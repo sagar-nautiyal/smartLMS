@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "powershell -Command \"taskkill /F /IM node.exe; Remove-Item -Recurse -Force .\\node_modules,.\\node_modules\\.vite,.\\package-lock.json -ErrorAction SilentlyContinue\""
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.0",

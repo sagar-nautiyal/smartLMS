@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { filterCategories } from "../services/Categories";
 import axios from "axios";
 
 const INTITIALSTATE = {
@@ -13,10 +14,12 @@ export const getCourse = createAsyncThunk(
   "course/getCourse",
   async (_, { rejectWithValue }) => {
     try {
+      //console.log("Calling backend to fetch...");
       const response = await axios.get("http://localhost:3000/api/courses");
       //console.log("All courses after calling ...", response.data.data);
       return response.data.data;
     } catch (error) {
+      console.log("Error while fetchig course from backend: ", err);
       return rejectWithValue(error.message);
     }
   }
@@ -58,6 +61,18 @@ export const fetchUserCourses = createAsyncThunk(
   }
 );
 
+//fetch filtered courses
+export const fetchFilteredCourses = createAsyncThunk(
+  "courses/filter",
+  async (filters, { rejectWithValue }) => {
+    try {
+      return await filterCategories(filters);
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 const courseSlice = createSlice({
   name: "course",
   initialState: INTITIALSTATE,
@@ -65,8 +80,9 @@ const courseSlice = createSlice({
   extraReducers: (builder) => {
     //get all courses
     builder
-      .addCase(getCourse.pending, (state, action) => {
-        (state.isLoading = true), (state.error = null);
+      .addCase(getCourse.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
       })
       .addCase(getCourse.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -74,7 +90,8 @@ const courseSlice = createSlice({
         state.error = null;
       })
       .addCase(getCourse.rejected, (state, action) => {
-        (state.isLoading = false), (state.error = action.payload);
+        state.isLoading = false;
+        state.error = action.payload;
       });
     //fetch current course
     builder
@@ -102,6 +119,22 @@ const courseSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUserCourses.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+
+    //fetch filters course
+    builder
+      .addCase(fetchFilteredCourses.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchFilteredCourses.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.courses = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchFilteredCourses.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

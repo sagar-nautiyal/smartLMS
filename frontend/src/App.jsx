@@ -28,28 +28,28 @@ function App() {
     }
   }, [dispatch, token]);
 
-  if (isLoading) {
-    return (
-      <div>
-        <h1>
-          <Skeleton width={300} />
-        </h1>
-        <p>
-          <Skeleton count={3} />
-        </p>
-        <p>
-          <Skeleton width={200} />
-        </p>
-        <p>
-          <Skeleton width={150} />
-        </p>
-        <div>
-          <Skeleton width={100} height={40} style={{ marginRight: 10 }} />
-          <Skeleton width={100} height={40} />
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <h1>
+  //         <Skeleton width={300} />
+  //       </h1>
+  //       <p>
+  //         <Skeleton count={3} />
+  //       </p>
+  //       <p>
+  //         <Skeleton width={200} />
+  //       </p>
+  //       <p>
+  //         <Skeleton width={150} />
+  //       </p>
+  //       <div>
+  //         <Skeleton width={100} height={40} style={{ marginRight: 10 }} />
+  //         <Skeleton width={100} height={40} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const routes = createBrowserRouter([
     {
