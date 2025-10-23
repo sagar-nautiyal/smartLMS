@@ -1,7 +1,10 @@
 // src/pages/RegisterUser.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import illustration from "../assets/login.svg"; // Add a register illustration in this path
+import { registerUser } from "../reducer/AuthReducer";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 function RegisterUser() {
   const [formData, setFormData] = useState({
@@ -10,15 +13,34 @@ function RegisterUser() {
     password: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Register Data:", formData);
+  const handleSubmit = async (e) => {
     // TODO: Add API call for registration
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    try {
+      // unwrap() will throw if the thunk is rejected
+      await dispatch(registerUser(formData)).unwrap();
+
+      // optional: redirect or show toast
+      toast.success("Registration successful!");
+      window.location.href = "/login";
+    } catch (err) {
+      console.error("Registration failed:", err);
+      // optional: show toast or error message
+      toast.error(
+        "Oops I guess not a good time to register, please check back again in sometime"
+      );
+    }
   };
 
   return (

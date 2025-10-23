@@ -14,7 +14,7 @@ export default function LearningPage() {
   useEffect(() => {
     const getMyCourses = async () => {
       try {
-        await dispatch(fetchUserCourses()).unwrap();
+        const result = await dispatch(fetchUserCourses()).unwrap();
       } catch (err) {
         toast.error(
           "Problem fetching your courses, please check back again in sometime"
@@ -71,7 +71,7 @@ export default function LearningPage() {
     <div className="container my-5">
       <h2 className="mb-4">My Learning</h2>
       <div className="row">
-        {userCourses ? (
+        {userCourses && userCourses.length > 0 ? (
           userCourses.map((course) => (
             <div
               className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
@@ -108,7 +108,15 @@ export default function LearningPage() {
             </div>
           ))
         ) : (
-          <p>No courses enrolled yet.</p>
+          <div className="col-12">
+            <div className="text-center py-5 bg-light rounded">
+              <h4 className="text-muted mb-3">📚 No courses enrolled yet</h4>
+              <p className="text-muted mb-4">Start your learning journey by exploring our amazing courses!</p>
+              <Link to="/courses" className="btn btn-primary">
+                Browse Courses
+              </Link>
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -4,63 +4,96 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createPaymentIntentThunk } from "../reducer/PaymentReducer";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
-import { fetchCurrentCourse } from "../reducer/CourseReducer";
 import { CheckoutForm } from "../components/course/CheckoutForm";
+import axios from "axios";
 const stripeKey = import.meta.env.VITE_PUBLIC_STRIPE_KEY;
 const stripePromise = loadStripe(stripeKey);
 export default function CheckoutPage() {
-  console.log("CheckoutPage mounted");
   const [clientSecret, setClientSecret] = useState("");
-  const [courseAmount, setCourseAmount] = useState(0);
+  const [cart, setCart] = useState();
   const dispatch = useDispatch();
-  const { courseId } = useParams();
 
-  //fetch the current Course to set the amount
+  //fetch the cart Items for currentUser
   useEffect(() => {
-    console.log("Fetching the current Course initiated.......");
-    const fetchCourse = async () => {
-      try {
-        const course = await dispatch(
-          fetchCurrentCourse({ courseId })
-        ).unwrap();
-        setCourseAmount(course.price);
-      } catch (err) {
-        console.error("Failed to fetch course:", err);
-      }
+    const fetchCart = async () => {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/api/cart", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCart(res.data); // cart contains courses[] and totalPrice
     };
-
-    if (courseId) {
-      fetchCourse();
-    }
-  }, [dispatch, courseId]);
+    fetchCart();
+  }, []);
 
   //fetching client secret
   useEffect(() => {
-    console.log("Payment Intent Initiated.....");
-    const fetchClientSecretKey = async (amount) => {
-      try {
-        const response = await dispatch(
-          createPaymentIntentThunk(amount)
-        ).unwrap();
-        console.log("response for client secret", response);
-        setClientSecret(response.client_secret);
-      } catch (err) {
-        toast.error("Something went wrong");
-      }
-    };
-    fetchClientSecretKey(courseAmount);
-  }, [courseAmount]);
+    if (cart?.totalPrice > 0) {
+      const fetchClientSecretKey = async (amount) => {
+        try {
+          const response = await dispatch(
+            createPaymentIntentThunk(amount)
+          ).unwrap();
+          setClientSecret(response.client_secret);
+        } catch (err) {
+          toast.error("Something went wrong");
+        }
+      };
+      fetchClientSecretKey(cart.totalPrice);
+    }
+  }, [cart]);
+
   return (
     <>
-      <h1>Checkout Page</h1>
-      {clientSecret ? (
-        <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutForm amount={courseAmount} />
-        </Elements>
-      ) : (
-        <p>Loading payment details...</p>
-      )}
+      <div className="container mt-5">
+        <div className="row">
+          {/* Order Summary */}
+          <div className="col-md-5">
+            <div className="card shadow-sm p-4">
+              <h4 className="mb-3">🛒 Order Summary</h4>
+              <ul className="list-group list-group-flush mb-3">
+                {cart?.courses.map((c) => (
+                  <li
+                    key={c.courseId._id}
+                    className="list-group-item d-flex justify-content-between"
+                  >
+                    <span>{c.courseId.title}</span>
+                    <span>
+                      ${c.price} × {c.quantity}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <hr />
+              <h5 className="d-flex justify-content-between">
+                <span>Total:</span>
+                <span className="fw-bold text-primary">
+                  ${cart?.totalPrice}
+                </span>
+              </h5>
+            </div>
+          </div>
+
+          {/* Payment Form */}
+          <div className="col-md-7">
+            <div className="card shadow-sm p-4">
+              <h4 className="mb-3">💳 Payment Details</h4>
+              {clientSecret ? (
+                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                  <CheckoutForm amount={cart?.totalPrice} />
+                </Elements>
+              ) : (
+                <div className="text-center text-muted">
+                  <div
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                  ></div>
+                  Loading payment details...
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

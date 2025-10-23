@@ -22,7 +22,8 @@ function Login() {
     try {
       await dispatch(loginthunk(userData)).unwrap();
       toast.success("Logged in Successfully!");
-      navigate(-1);
+      navigate("/");
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }

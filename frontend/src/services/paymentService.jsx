@@ -8,10 +8,9 @@ export const createPaymentIntent = async (amount) => {
     },
     {
       headers: {
-        Authorization: `${token}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
-  console.log("Payload from backend", res.data);
   return res.data;
 };

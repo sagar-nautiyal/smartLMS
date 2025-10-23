@@ -9,6 +9,7 @@ import courseRouter from "./routes/courseRoute.js";
 import categoryRouter from "./routes/categoryRoute.js";
 import paymentRouter from "./routes/paymentRoutes.js";
 import auth from "./middlewares/auth.js";
+import cartRouter from "./routes/cartRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,8 @@ app.use("/api/courses", courseRouter);
 app.use("/api/categories", categoryRouter);
 //payment
 app.use("/api/payment", auth, paymentRouter);
+//cart
+app.use("/api/cart", auth, cartRouter);
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => {

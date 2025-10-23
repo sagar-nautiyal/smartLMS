@@ -17,6 +17,8 @@ import LearningPage from "./pages/LearningPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import LessonPlayer from "./pages/LessonPlayer";
 import UserProfilePage from "./pages/UserProfilePage";
+import CheckoutSuccessPage from "./components/course/CheckoutSuccessPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const { isLoading } = useSelector(authSelector);
@@ -56,21 +58,16 @@ function App() {
       path: "/",
       element: <RootLayout />,
       children: [
-        {
-          index: true,
-          element: <HomePage />,
-        },
+        { index: true, element: <HomePage /> },
+
+        // Courses
         {
           path: "courses",
           children: [
-            {
-              index: true,
-              element: <CoursesPage />,
-            },
-            {
-              path: ":courseId",
-              element: <CourseDetailPage />,
-            },
+            { index: true, element: <CoursesPage /> },
+            { path: ":courseId", element: <CourseDetailPage /> },
+
+            // ✅ Buy Now → single course checkout
             {
               path: ":courseId/checkout",
               element: (
@@ -81,40 +78,61 @@ function App() {
             },
           ],
         },
+
+        // ✅ Cart flow
         {
-          path: "myLearning",
-          element: <PrivateRoute />,
-          children: [
-            {
-              index: true,
-              element: <LearningPage />,
-            },
-            {
-              path: "learn/courses/:id",
-              element: <LessonPlayer />,
-            },
-          ],
+          path: "cart",
+          element: (
+            <PrivateRoute>
+              <CartPage />
+            </PrivateRoute>
+          ),
         },
         {
+          path: "cart/checkout",
+          element: (
+            <PrivateRoute>
+              <CheckoutPage />
+            </PrivateRoute>
+          ),
+        },
+
+        // ✅ My Learning
+        {
+          path: "myLearning",
+          element: (
+            <PrivateRoute>
+              <LearningPage />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "myLearning/learn/courses/:id",
+          element: (
+            <PrivateRoute>
+              <LessonPlayer />
+            </PrivateRoute>
+          ),
+        },
+
+        // ✅ User Profile
+        {
           path: "user",
-          element: <PrivateRoute />,
-          children: [
-            {
-              index: true,
-              element: <UserProfilePage />,
-            },
-          ],
+          element: (
+            <PrivateRoute>
+              <UserProfilePage />
+            </PrivateRoute>
+          ),
         },
       ],
     },
-    {
-      path: "login",
-      element: <Login />,
-    },
-    {
-      path: "register",
-      element: <RegisterUser />,
-    },
+
+    // Auth
+    { path: "login", element: <Login /> },
+    { path: "register", element: <RegisterUser /> },
+
+    // ✅ Stripe success page
+    { path: "checkout-success", element: <CheckoutSuccessPage /> },
   ]);
 
   return (

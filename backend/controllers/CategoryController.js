@@ -27,7 +27,7 @@ export default class CategoryController {
       return res.status(200).json({ data: courses });
     } catch (err) {
       console.log("error fetching the courses: ", err);
-      return res.status(500).json("Internal Server Error");
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }

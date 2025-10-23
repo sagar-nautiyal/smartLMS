@@ -1,15 +1,22 @@
 // src/components/Navbar.jsx
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authSelector, logout } from "../../reducer/AuthReducer";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { cartSelector, fetchCart } from "../../reducer/CartReducer";
 
 function Navbar() {
   const { currentUser, isAuthenticated } = useSelector(authSelector);
+  const { totalItems } = useSelector(cartSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, isAuthenticated]);
 
   const handlLogout = async () => {
     try {
@@ -18,7 +25,7 @@ function Navbar() {
       navigate("/");
     } catch (err) {
       console.log(err);
-      toast.error("Problem loggin out");
+      toast.error("Problem logging out");
     }
   };
 
@@ -51,35 +58,56 @@ function Navbar() {
                 Courses
               </Link>
             </li>
+
+            {isAuthenticated && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/myLearning">
+                  My Learning
+                </Link>
+              </li>
+            )}
+
+            {isAuthenticated && (
+              <li className="nav-item position-relative">
+                <Link className="nav-link" to="/cart">
+                  <i className="bi bi-cart fs-5"></i>
+                  {totalItems > 0 && (
+                    <span
+                      className="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger"
+                      style={{ fontSize: "0.7rem" }}
+                    >
+                      {totalItems}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            )}
           </ul>
 
           {/* Right Side Buttons */}
           <div className="d-flex ms-lg-3">
-            <>
-              {isAuthenticated ? (
-                <div className="d-flex align-items-center ms-auto">
-                  {/* { currentUser.name ? currentUser.name : unde} */}
-                  <span className="me-3">
-                    {currentUser ? `Hi,${currentUser.name}` : "Hi"}
-                  </span>
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={handlLogout}
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <Link to="/login" className="btn btn-outline-primary me-2">
-                    Login
-                  </Link>
-                  <Link to="/register" className="btn btn-primary">
-                    Sign Up
-                  </Link>
-                </>
-              )}
-            </>
+            {isAuthenticated ? (
+              <div className="d-flex align-items-center ms-auto">
+                <span className="me-3">
+                  {currentUser ? `Hi, ${currentUser.name}` : "Hi"}
+                </span>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={handlLogout}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link to="/login" className="btn btn-outline-primary me-2">
+                  Login
+                </Link>
+                <Link to="/register" className="btn btn-primary">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

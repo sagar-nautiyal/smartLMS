@@ -30,6 +30,25 @@ export const loginthunk = createAsyncThunk(
   }
 );
 
+//register
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (formData, { rejectWithValue }) => {
+    try {
+      // 🔑 Replace with your API endpoint
+      const res = await axios.post(
+        "http://localhost:3000/api/users/register",
+        formData
+      );
+      return res.data; // expected: { user, token }
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Registration failed"
+      );
+    }
+  }
+);
+
 //fetching the currentUser
 export const fetchCurrentUser = createAsyncThunk(
   "login/fetchCurrentUser",
@@ -66,6 +85,7 @@ const authSlice = createSlice({
   initialState: INTITIALSTATE,
   reducers: {
     logout: (state) => {
+      state.isAuthenticated = false;
       state.currentUser = null;
       localStorage.removeItem("token");
     },
@@ -88,6 +108,20 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.error = action.payload;
       });
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+
     builder
       .addCase(fetchCurrentUser.pending, (state, action) => {
         state.isLoading = true;

@@ -1,15 +1,20 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { courseSelector } from "../reducer/CourseReducer";
 import { fetchCurrentCourse } from "../reducer/CourseReducer";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { addToCart } from "../reducer/CartReducer";
 export default function CourseDetailPage() {
   //to fetch the current selected course
   const { courseId } = useParams();
+  const [addingToCart, setAddingToCart] = useState(false);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentCourse, isLoading } = useSelector(courseSelector);
 
   //fetch the course
@@ -26,6 +31,30 @@ export default function CourseDetailPage() {
       toast.success(`Loaded course: ${currentCourse.title}`);
     }
   }, [currentCourse]);
+
+  const handleBuyNow = async () => {
+    const token = localStorage.getItem("token");
+    await axios.post(
+      `http://localhost:3000/api/cart/${currentCourse._id}`,
+      { quantity: 1 },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    // ✅ After ensuring it's in the cart, go to checkout
+    navigate(`/courses/${currentCourse._id}/checkout`);
+  };
+
+  const handleAddToCart = async () => {
+    if (!currentCourse?._id) return;
+    setAddingToCart(true);
+    try {
+      await dispatch(addToCart({ courseId })).unwrap();
+      toast.success("Course added to cart!");
+    } catch (err) {
+      toast.error("Failed to add course to cart.");
+    } finally {
+      setAddingToCart(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -274,15 +303,30 @@ export default function CourseDetailPage() {
               />
               <div className="card-body">
                 <h4 className="fw-bold text-primary mb-3">$49.99</h4>
-                <Link
-                  to={`/courses/${currentCourse?._id}/checkout`}
+                <button
                   className="btn btn-primary w-100 mb-2"
+                  onClick={handleBuyNow}
                 >
                   Buy Now
-                </Link>
-                <button className="btn btn-outline-secondary w-100 mb-3">
-                  Add to Cart
                 </button>
+                <button
+                  className="btn btn-outline-secondary w-100 mb-3 d-flex justify-content-center align-items-center"
+                  onClick={handleAddToCart}
+                  disabled={addingToCart}
+                >
+                  {addingToCart ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      />
+                      Adding...
+                    </>
+                  ) : (
+                    "Add to Cart"
+                  )}
+                </button>
+
                 <p className="small text-muted mb-1">
                   30-Day Money-Back Guarantee
                 </p>

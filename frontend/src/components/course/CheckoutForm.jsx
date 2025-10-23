@@ -6,7 +6,7 @@ import {
 import { useSelector } from "react-redux";
 import { paymentSelector } from "../../reducer/PaymentReducer";
 import { toast } from "react-toastify";
-export const CheckoutForm = ({ clientSecret }) => {
+export const CheckoutForm = () => {
   const { isLoading, error } = useSelector(paymentSelector);
   const stripe = useStripe();
   const elements = useElements();
@@ -20,7 +20,7 @@ export const CheckoutForm = ({ clientSecret }) => {
       // `clientSecret` from the created PaymentIntent
       //clientSecret,
       confirmParams: {
-        return_url: `${window.location.origin}/complete`,
+        return_url: `${window.location.origin}/checkout-success`,
       },
       // Uncomment below if you only want redirect for redirect-based payments.
       // redirect: 'if_required',
@@ -39,14 +39,21 @@ export const CheckoutForm = ({ clientSecret }) => {
     <>
       <form id="course-payment" onSubmit={handleSubmit}>
         <PaymentElement id="payment-element" />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay Now"}
+        <button
+          type="submit"
+          disabled={isLoading || !stripe || !elements}
+          id="submit"
+          className="btn btn-primary w-100 mt-3 d-flex justify-content-center align-items-center"
+        >
+          {isLoading ? (
+            <div
+              className="spinner-border spinner-border-sm me-2"
+              role="status"
+            ></div>
+          ) : (
+            "💳 Pay Now"
+          )}
         </button>
-        {error && (
-          <div className="card-error" role="alert">
-            {error}
-          </div>
-        )}
       </form>
     </>
   );
