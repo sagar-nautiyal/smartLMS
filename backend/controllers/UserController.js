@@ -84,13 +84,11 @@ export default class UserController {
 
       const updatedUser = await user.save();
 
-      return res
-        .status(200)
-        .json({
-          id: user._id,
-          name: updatedUser.name,
-          email: updatedUser.email,
-        });
+      return res.status(200).json({
+        id: user._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+      });
     } catch (err) {
       return res.status(500).json({ message: "Internal Server error" });
     }

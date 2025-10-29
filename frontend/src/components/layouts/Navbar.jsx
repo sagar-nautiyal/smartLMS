@@ -29,23 +29,29 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3"
-         style={{
-           background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important',
-           backdropFilter: 'blur(10px)',
-           borderBottom: '1px solid rgba(255,255,255,0.2)'
-         }}>
+    <nav
+      className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3"
+      style={{
+        background:
+          "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important",
+        backdropFilter: "blur(10px)",
+        borderBottom: "1px solid rgba(255,255,255,0.2)",
+      }}
+    >
       <div className="container">
         {/* Brand */}
-        <Link className="navbar-brand fw-bold" to="/"
-              style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontSize: '1.8rem',
-                letterSpacing: '0.5px'
-              }}>
+        <Link
+          className="navbar-brand fw-bold"
+          to="/"
+          style={{
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            fontSize: "1.8rem",
+            letterSpacing: "0.5px",
+          }}
+        >
           <i className="bi bi-mortarboard-fill me-2"></i>
           SmartLMS
         </Link>
@@ -107,59 +113,64 @@ function Navbar() {
                   id="accountDropdown"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  style={{ 
-                    borderRadius: '25px',
-                    padding: '8px 16px',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    border: 'none'
+                  style={{
+                    borderRadius: "25px",
+                    padding: "8px 16px",
+                    background:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    color: "white",
+                    border: "none",
                   }}
                 >
                   <div className="d-flex align-items-center">
-                    <div 
+                    <div
                       className="rounded-circle me-2 d-flex align-items-center justify-content-center"
                       style={{
-                        width: '32px',
-                        height: '32px',
-                        backgroundColor: 'rgba(255,255,255,0.2)',
-                        fontSize: '14px',
-                        fontWeight: 'bold'
+                        width: "32px",
+                        height: "32px",
+                        backgroundColor: "rgba(255,255,255,0.2)",
+                        fontSize: "14px",
+                        fontWeight: "bold",
                       }}
                     >
-                      {currentUser?.name?.charAt(0).toUpperCase() || 'U'}
+                      {currentUser?.name?.charAt(0).toUpperCase() || "U"}
                     </div>
                     <span className="fw-medium">
-                      {currentUser?.name || 'User'}
+                      {currentUser?.name || "User"}
                     </span>
                   </div>
                 </button>
-                <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0" 
-                    style={{ 
-                      minWidth: '200px',
-                      borderRadius: '12px',
-                      padding: '8px 0'
-                    }}>
+                <ul
+                  className="dropdown-menu dropdown-menu-end shadow-lg border-0"
+                  style={{
+                    minWidth: "200px",
+                    borderRadius: "12px",
+                    padding: "8px 0",
+                  }}
+                >
                   <li>
-                    <Link 
-                      className="dropdown-item d-flex align-items-center py-2 px-3" 
+                    <Link
+                      className="dropdown-item d-flex align-items-center py-2 px-3"
                       to="/profile"
-                      style={{ borderRadius: '8px' }}
+                      style={{ borderRadius: "8px" }}
                     >
                       <i className="bi bi-person-circle me-2 fs-5 text-primary"></i>
                       <span>My Profile</span>
                     </Link>
                   </li>
-                  <li><hr className="dropdown-divider my-1" /></li>
+                  <li>
+                    <hr className="dropdown-divider my-1" />
+                  </li>
                   <li>
                     <button
                       className="dropdown-item d-flex align-items-center py-2 px-3 text-danger"
                       onClick={handlLogout}
-                      style={{ 
-                        borderRadius: '8px',
-                        border: 'none',
-                        background: 'none',
-                        width: '100%',
-                        textAlign: 'left'
+                      style={{
+                        borderRadius: "8px",
+                        border: "none",
+                        background: "none",
+                        width: "100%",
+                        textAlign: "left",
                       }}
                     >
                       <i className="bi bi-box-arrow-right me-2 fs-5"></i>
@@ -170,14 +181,21 @@ function Navbar() {
               </div>
             ) : (
               <>
-                <Link to="/login" className="btn btn-outline-primary me-2 rounded-pill px-4">
+                <Link
+                  to="/login"
+                  className="btn btn-outline-primary me-2 rounded-pill px-4"
+                >
                   Login
                 </Link>
-                <Link to="/register" className="btn btn-primary rounded-pill px-4"
-                      style={{
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        border: 'none'
-                      }}>
+                <Link
+                  to="/register"
+                  className="btn btn-primary rounded-pill px-4"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    border: "none",
+                  }}
+                >
                   Sign Up
                 </Link>
               </>

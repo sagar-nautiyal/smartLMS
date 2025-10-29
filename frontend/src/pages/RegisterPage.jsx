@@ -35,9 +35,7 @@ function RegisterUser() {
       window.location.href = "/login";
     } catch {
       // optional: show toast or error message
-      toast.error(
-        "Registration failed. Please try again later."
-      );
+      toast.error("Registration failed. Please try again later.");
     }
   };
 

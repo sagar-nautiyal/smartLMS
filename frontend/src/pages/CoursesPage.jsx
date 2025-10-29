@@ -85,7 +85,6 @@ export default function CoursesPage() {
 
   //apply filters
 
-
   return (
     <>
       <div className="container my-5">

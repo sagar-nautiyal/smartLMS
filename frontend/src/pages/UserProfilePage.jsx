@@ -22,12 +22,14 @@ export default function UserProfilePage() {
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8">
           {isAuthenticated && (
-            <div className="card border-0 p-4" 
-                 style={{ 
-                   borderRadius: '20px',
-                   boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-                   background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'
-                 }}>
+            <div
+              className="card border-0 p-4"
+              style={{
+                borderRadius: "20px",
+                boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+                background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+              }}
+            >
               <div className="row g-4 align-items-center">
                 {/* Left: Profile Image */}
                 <div className="col-12 col-md-4 text-center">
@@ -40,18 +42,19 @@ export default function UserProfilePage() {
                         width: "150px",
                         height: "150px",
                         objectFit: "cover",
-                        border: '4px solid white',
-                        boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+                        border: "4px solid white",
+                        boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
                       }}
                     />
-
                   </div>
-
                 </div>
 
                 {/* Right: Profile Form */}
                 <div className="col-12 col-md-8">
-                  <h4 className="fw-bold mb-4 text-gradient" style={{ fontSize: '1.8rem' }}>
+                  <h4
+                    className="fw-bold mb-4 text-gradient"
+                    style={{ fontSize: "1.8rem" }}
+                  >
                     👤 Profile Details
                   </h4>
                   <form onSubmit={handleUpdate}>
@@ -87,7 +90,10 @@ export default function UserProfilePage() {
                     {/* Future fields can be added here */}
 
                     <div className="d-flex justify-content-end">
-                      <button type="submit" className="btn btn-primary px-5 py-2 rounded-pill interactive-element">
+                      <button
+                        type="submit"
+                        className="btn btn-primary px-5 py-2 rounded-pill interactive-element"
+                      >
                         <i className="bi bi-check2-circle me-2"></i>
                         Update Profile
                       </button>
