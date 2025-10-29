@@ -14,7 +14,18 @@ import cartRouter from "./routes/cartRoutes.js";
 const app = express();
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://13.61.151.128',
+    'http://13.61.151.128:3000',
+    'http://13.61.151.128:80',
+    process.env.FRONTEND_URL
+  ],
+  credentials: true
+}));
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
