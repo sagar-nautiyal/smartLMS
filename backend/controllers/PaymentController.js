@@ -39,7 +39,6 @@ export default class PaymentController {
         .status(200)
         .json({ client_secret: paymentIntent.client_secret });
     } catch (err) {
-      console.error("Error creating payment intent:", err);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -84,7 +83,6 @@ export default class PaymentController {
       });
       
     } catch (error) {
-      console.error("Error processing enrollment:", error);
       return res.status(500).json({ message: "Internal server error", error: error.message });
     }
   }

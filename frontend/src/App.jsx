@@ -21,7 +21,6 @@ import CheckoutSuccessPage from "./components/course/CheckoutSuccessPage";
 import CartPage from "./pages/CartPage";
 
 function App() {
-  const { isLoading } = useSelector(authSelector);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -118,6 +117,14 @@ function App() {
         // ✅ User Profile
         {
           path: "user",
+          element: (
+            <PrivateRoute>
+              <UserProfilePage />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "profile",
           element: (
             <PrivateRoute>
               <UserProfilePage />

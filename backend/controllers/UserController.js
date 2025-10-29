@@ -24,7 +24,6 @@ export default class UserController {
       await newUser.save();
       return res.status(201).json({ message: "User registered successfully" });
     } catch (err) {
-      console.log("Error while registering user", err);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -53,7 +52,6 @@ export default class UserController {
         .status(200)
         .json({ message: "Login successful", token, name: user.name });
     } catch (err) {
-      console.log("Error while logging in user", err);
       return res.status(500).json({ message: "Internal server error" });
     }
   }

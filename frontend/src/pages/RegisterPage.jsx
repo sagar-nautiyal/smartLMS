@@ -13,7 +13,6 @@ function RegisterUser() {
     password: "",
     confirmPassword: "",
   });
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -34,11 +33,10 @@ function RegisterUser() {
       // optional: redirect or show toast
       toast.success("Registration successful!");
       window.location.href = "/login";
-    } catch (err) {
-      console.error("Registration failed:", err);
+    } catch {
       // optional: show toast or error message
       toast.error(
-        "Oops I guess not a good time to register, please check back again in sometime"
+        "Registration failed. Please try again later."
       );
     }
   };

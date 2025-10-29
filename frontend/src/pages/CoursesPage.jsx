@@ -24,8 +24,7 @@ export default function CoursesPage() {
       try {
         await dispatch(getCourse()).unwrap();
       } catch (er) {
-        console.log("error fetching courses", er);
-        toast.dismiss("Failed to load courses, Please try again later!");
+        toast.error("Failed to load courses, Please try again later!");
       }
     };
 
@@ -39,7 +38,7 @@ export default function CoursesPage() {
         const allCategories = await getCategories();
         setCategories(allCategories);
       } catch (err) {
-        console.log(err);
+        toast.error("Failed to load categories");
       }
     };
 
@@ -85,22 +84,7 @@ export default function CoursesPage() {
   }, [filters, dispatch]);
 
   //apply filters
-  // const applyfilters = async () => {
-  //   const params = new URLSearchParams();
 
-  //   if (filters.search) params.append("search", filters.search);
-  //   if (filters.categories.length > 0)
-  //     params.append("categories", filters.categories.join(","));
-  //   if (filters.level) params.append("level", filters.level);
-  //   if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
-
-  //   try {
-  //     await dispatch(fetchFilteredCourses(params.toString())).unwrap();
-  //   } catch (err) {
-  //     console.log(err);
-  //     toast.dismiss("Unable to fetch the courses");
-  //   }
-  // };
 
   return (
     <>

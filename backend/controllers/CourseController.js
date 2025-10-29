@@ -7,10 +7,8 @@ export default class CourseController {
       const courses = await Course.find()
         .populate("instructor", "name")
         .populate("category", "name");
-      //console.log("Courses fetched from DB: ", courses);
       return res.status(200).json({ data: courses });
     } catch (err) {
-      console.log("Error while fetching courses", err);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -66,12 +64,6 @@ export default class CourseController {
     try {
       //get my courses
       const courses = await Course.find({ enrolledStudents: req.user.id });
-      // console.log(
-      //   "fetched the courses of user of id",
-      //   req.user._id,
-      //   "and user's courses are ",
-      //   courses
-      // );
       return res.status(200).json(courses);
     } catch (err) {
       return res.status(500).json({ message: "Internal Server Error" });

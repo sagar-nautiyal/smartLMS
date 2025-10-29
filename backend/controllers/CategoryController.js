@@ -6,10 +6,8 @@ export default class CategoryController {
     try {
       // Logic to fetch categories from the database
       const categories = await Category.find();
-      //console.log("categories: ", categories);
       return res.status(200).json(categories);
     } catch (err) {
-      console.log("Error while fetching categories", err);
       return res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -26,7 +24,6 @@ export default class CategoryController {
       const courses = await Course.find(filter);
       return res.status(200).json({ data: courses });
     } catch (err) {
-      console.log("error fetching the courses: ", err);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }

@@ -14,12 +14,9 @@ export const getCourse = createAsyncThunk(
   "course/getCourse",
   async (_, { rejectWithValue }) => {
     try {
-      //console.log("Calling backend to fetch...");
       const response = await axios.get("http://localhost:3000/api/courses");
-      //console.log("All courses after calling ...", response.data.data);
       return response.data.data;
     } catch (error) {
-      console.log("Error while fetchig course from backend: ", err);
       return rejectWithValue(error.message);
     }
   }

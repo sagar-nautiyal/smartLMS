@@ -1,5 +1,5 @@
 // src/pages/Login.jsx
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import illustration from "../assets/login.svg"; // Ensure you have an illustration image in this path
 import { useDispatch } from "react-redux";
@@ -24,8 +24,8 @@ function Login() {
       toast.success("Logged in Successfully!");
       navigate("/");
       window.location.href = "/";
-    } catch (err) {
-      console.log(err);
+    } catch {
+      toast.error("Login failed. Please try again.");
     }
   };
 

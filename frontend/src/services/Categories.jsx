@@ -4,7 +4,7 @@ export const getCategories = async () => {
     const res = await axios.get("http://localhost:3000/api/categories");
     return res.data;
   } catch (err) {
-    console.log(err);
+    return [];
   }
 };
 
@@ -15,6 +15,6 @@ export const filterCategories = async (filters) => {
     );
     return res.data.data;
   } catch (err) {
-    console.log(err);
+    return [];
   }
 };
