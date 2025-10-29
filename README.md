@@ -88,7 +88,7 @@ cp .env.example .env
 4. Update `.env` with your configurations:
 ```env
 VITE_PUBLIC_STRIPE_KEY=your_stripe_public_key
-VITE_API_URL=http://localhost:3000
+VITE_API_URL=http://13.61.151.128:3000
 ```
 
 5. Start the frontend development server:
@@ -107,7 +107,7 @@ npm run dev
 
 ### Frontend (.env)
 - `VITE_PUBLIC_STRIPE_KEY` - Stripe publishable key
-- `VITE_API_URL` - Backend API URL
+- `VITE_API_URL` - Backend API URL (Production: http://13.61.151.128:3000)
 - `VITE_APP_NAME` - Application name
 
 ## 📱 Usage
@@ -141,15 +141,34 @@ npm run dev
 
 ## 🚀 Deployment
 
-### Backend Deployment
-1. Set environment variables on your hosting platform
-2. Ensure MongoDB is accessible
-3. Deploy using your preferred platform (Heroku, AWS, etc.)
+### Production Deployment (AWS)
 
-### Frontend Deployment
+**Live Application:** http://13.61.151.128
+
+**Backend Deployment (Port 3000):**
+1. SSH into AWS EC2 instance: `ssh -i your-key.pem ubuntu@13.61.151.128`
+2. Clone repository and install dependencies
+3. Create production `.env` file with:
+   ```env
+   NODE_ENV=production
+   PORT=3000
+   DB_URL=your_mongodb_atlas_connection
+   JWT_SECRET=your_production_jwt_secret
+   STRIPE_SECRET_KEY=your_production_stripe_key
+   FRONTEND_URL=http://13.61.151.128
+   ```
+4. Start backend: `npm start`
+
+**Frontend Deployment (Port 80/443):**
 1. Build the project: `npm run build`
-2. Deploy the `dist` folder to your hosting platform
-3. Update `VITE_API_URL` to point to your backend URL
+2. Deploy the `dist` folder to web server
+3. Configure with production API URL: `http://13.61.151.128:3000`
+
+**Required AWS Security Group Ports:**
+- Port 22 (SSH)
+- Port 80 (HTTP)
+- Port 443 (HTTPS) 
+- Port 3000 (Backend API)
 
 ## 🤝 Contributing
 
@@ -169,6 +188,6 @@ This project is licensed under the MIT License.
 
 ## 🔗 Links
 
-- [Live Demo](#)
-- [API Documentation](#)
-- [Project Repository](#)
+- [Live Demo](http://13.61.151.128)
+- [Backend API](http://13.61.151.128:3000)
+- [Project Repository](https://github.com/sagar-nautiyal/smartLMS)

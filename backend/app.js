@@ -31,7 +31,7 @@ app.use("/api/payment", auth, paymentRouter);
 app.use("/api/cart", auth, cartRouter);
 
 const port = process.env.PORT || 3002;
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
   connectDB();
 });
