@@ -2,7 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL
-const API_URL = "http://localhost:3000/api/cart";
+const getApiUrl = () => {
+  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  return `${baseUrl}/api/cart`;
+};
 
 // Thunks
 export const fetchCart = createAsyncThunk(
@@ -10,7 +13,7 @@ export const fetchCart = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(API_URL, {
+      const res = await axios.get(getApiUrl(), {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;
@@ -28,7 +31,7 @@ export const addToCart = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        `${API_URL}/${courseId}`,
+        `${getApiUrl()}/${courseId}`,
         { quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -47,7 +50,7 @@ export const updateCartItem = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        `${API_URL}/${courseId}`,
+        `${getApiUrl()}/${courseId}`,
         { quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -65,7 +68,7 @@ export const removeFromCart = createAsyncThunk(
   async (courseId, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete(`${API_URL}/${courseId}`, {
+      const res = await axios.delete(`${getApiUrl()}/${courseId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;

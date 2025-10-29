@@ -34,8 +34,9 @@ export default function CourseDetailPage() {
 
   const handleBuyNow = async () => {
     const token = localStorage.getItem("token");
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
     await axios.post(
-      `http://localhost:3000/api/cart/${currentCourse._id}`,
+      `${apiUrl}/api/cart/${currentCourse._id}`,
       { quantity: 1 },
       { headers: { Authorization: `Bearer ${token}` } }
     );

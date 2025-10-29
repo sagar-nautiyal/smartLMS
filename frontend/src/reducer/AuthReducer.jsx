@@ -19,8 +19,9 @@ export const loginthunk = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await axios.post(
-        "http://localhost:3000/api/users/login",
+        `${apiUrl}/api/users/login`,
         { email, password }
       );
       return response.data;
@@ -36,8 +37,9 @@ export const registerUser = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       // 🔑 Replace with your API endpoint
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const res = await axios.post(
-        "http://localhost:3000/api/users/register",
+        `${apiUrl}/api/users/register`,
         formData
       );
       return res.data; // expected: { user, token }
@@ -55,7 +57,8 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3000/api/users/me", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      const response = await axios.get(`${apiUrl}/api/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

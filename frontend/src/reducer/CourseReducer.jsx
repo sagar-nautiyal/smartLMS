@@ -14,7 +14,8 @@ export const getCourse = createAsyncThunk(
   "course/getCourse",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3000/api/courses");
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      const response = await axios.get(`${apiUrl}/api/courses`);
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -27,8 +28,9 @@ export const fetchCurrentCourse = createAsyncThunk(
   "courses/fetchCurrent",
   async ({ courseId }, rejectWithValue) => {
     try {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await axios.get(
-        `http://localhost:3000/api/courses/${courseId}`
+        `${apiUrl}/api/courses/${courseId}`
       );
       return response.data;
     } catch (err) {
@@ -43,8 +45,9 @@ export const fetchUserCourses = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await axios.get(
-        "http://localhost:3000/api/courses/my-courses",
+        `${apiUrl}/api/courses/my-courses`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

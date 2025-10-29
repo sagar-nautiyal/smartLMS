@@ -17,7 +17,8 @@ export default function CheckoutPage() {
   useEffect(() => {
     const fetchCart = async () => {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/api/cart", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      const res = await axios.get(`${apiUrl}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCart(res.data); // cart contains courses[] and totalPrice

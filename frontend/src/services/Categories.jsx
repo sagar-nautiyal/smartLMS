@@ -1,7 +1,8 @@
 import axios from "axios";
 export const getCategories = async () => {
   try {
-    const res = await axios.get("http://localhost:3000/api/categories");
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+    const res = await axios.get(`${apiUrl}/api/categories`);
     return res.data;
   } catch (err) {
     return [];
@@ -10,8 +11,9 @@ export const getCategories = async () => {
 
 export const filterCategories = async (filters) => {
   try {
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
     const res = await axios.get(
-      `http://localhost:3000/api/categories/filters?${filters}`
+      `${apiUrl}/api/categories/filters?${filters}`
     );
     return res.data.data;
   } catch (err) {
