@@ -14,6 +14,7 @@ A full-stack Learning Management System built with React, Node.js, MongoDB, and 
 ## 🛠️ Tech Stack
 
 **Frontend:**
+
 - React 18
 - Redux Toolkit
 - React Router DOM
@@ -23,6 +24,7 @@ A full-stack Learning Management System built with React, Node.js, MongoDB, and 
 - React Toastify
 
 **Backend:**
+
 - Node.js
 - Express.js
 - MongoDB with Mongoose
@@ -33,6 +35,7 @@ A full-stack Learning Management System built with React, Node.js, MongoDB, and 
 ## 📦 Installation
 
 ### Prerequisites
+
 - Node.js (v14 or higher)
 - MongoDB (local or Atlas)
 - Stripe account for payment processing
@@ -40,21 +43,25 @@ A full-stack Learning Management System built with React, Node.js, MongoDB, and 
 ### Backend Setup
 
 1. Navigate to backend directory:
+
 ```bash
 cd backend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create `.env` file from example:
+
 ```bash
 cp .env.example .env
 ```
 
 4. Update `.env` with your configurations:
+
 ```env
 DB_URL=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
@@ -62,6 +69,7 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 ```
 
 5. Start the backend server:
+
 ```bash
 npm start
 # or for development
@@ -71,27 +79,32 @@ npm run dev
 ### Frontend Setup
 
 1. Navigate to frontend directory:
+
 ```bash
 cd frontend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create `.env` file from example:
+
 ```bash
 cp .env.example .env
 ```
 
 4. Update `.env` with your configurations:
+
 ```env
 VITE_PUBLIC_STRIPE_KEY=your_stripe_public_key
 VITE_API_URL=http://13.61.151.128:3000
 ```
 
 5. Start the frontend development server:
+
 ```bash
 npm run dev
 ```
@@ -99,6 +112,7 @@ npm run dev
 ## 🔧 Environment Variables
 
 ### Backend (.env)
+
 - `DB_URL` - MongoDB connection string
 - `JWT_SECRET` - Secret key for JWT tokens
 - `STRIPE_SECRET_KEY` - Stripe secret key
@@ -106,6 +120,7 @@ npm run dev
 - `NODE_ENV` - Environment mode
 
 ### Frontend (.env)
+
 - `VITE_PUBLIC_STRIPE_KEY` - Stripe publishable key
 - `VITE_API_URL` - Backend API URL (Production: http://13.61.151.128:3000)
 - `VITE_APP_NAME` - Application name
@@ -121,22 +136,26 @@ npm run dev
 ## 🔐 API Endpoints
 
 ### Auth Routes (`/api/users`)
+
 - `POST /register` - Register new user
 - `POST /login` - User login
 - `GET /me` - Get current user
 
 ### Course Routes (`/api/courses`)
+
 - `GET /` - Get all courses
 - `GET /:id` - Get course by ID
 - `GET /my-courses` - Get user's enrolled courses
 
 ### Cart Routes (`/api/cart`)
+
 - `GET /` - Get user's cart
 - `POST /:courseId` - Add course to cart
 - `PUT /:courseId` - Update cart item
 - `DELETE /:courseId` - Remove from cart
 
 ### Payment Routes (`/api/payment`)
+
 - `POST /create-payment-intent` - Create Stripe payment intent
 
 ## 🚀 Deployment
@@ -146,6 +165,7 @@ npm run dev
 **Live Application:** http://13.61.151.128
 
 **Backend Deployment (Port 3000):**
+
 1. SSH into AWS EC2 instance: `ssh -i your-key.pem ubuntu@13.61.151.128`
 2. Clone repository and install dependencies
 3. Create production `.env` file with:
@@ -160,14 +180,16 @@ npm run dev
 4. Start backend: `npm start`
 
 **Frontend Deployment (Port 80/443):**
+
 1. Build the project: `npm run build`
 2. Deploy the `dist` folder to web server
 3. Configure with production API URL: `http://13.61.151.128:3000`
 
 **Required AWS Security Group Ports:**
+
 - Port 22 (SSH)
 - Port 80 (HTTP)
-- Port 443 (HTTPS) 
+- Port 443 (HTTPS)
 - Port 3000 (Backend API)
 
 ## 🤝 Contributing
