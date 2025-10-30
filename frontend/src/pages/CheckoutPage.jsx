@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { CheckoutForm } from "../components/course/CheckoutForm";
 import axios from "axios";
 const stripeKey = import.meta.env.VITE_PUBLIC_STRIPE_KEY;
+console.log('Debug - Stripe Key:', stripeKey ? 'Key found' : 'Key missing', stripeKey?.substring(0, 10) + '...');
 const stripePromise = loadStripe(stripeKey);
 export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
