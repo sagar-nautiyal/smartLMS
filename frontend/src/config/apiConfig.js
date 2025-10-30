@@ -31,13 +31,25 @@ export const buildApiUrl = (endpoint) => {
   // Remove leading slash if present
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
 
+  // Debug the endsWith check
+  const endsWithApi = API_URL.endsWith('/api');
+  console.log('🔧 buildApiUrl Debug:');
+  console.log('- API_URL:', API_URL);
+  console.log('- endsWith(\'/api\'):', endsWithApi);
+  console.log('- endpoint:', endpoint);
+  console.log('- cleanEndpoint:', cleanEndpoint);
+
   // Check if API_URL already ends with /api (Nginx reverse proxy setup)
-  if (API_URL.endsWith('/api')) {
+  if (endsWithApi) {
     // API_URL already includes /api, just append the endpoint
-    return `${API_URL}/${cleanEndpoint}`;
+    const result = `${API_URL}/${cleanEndpoint}`;
+    console.log('- Result (reverse proxy):', result);
+    return result;
   } else {
     // Traditional setup: add /api/ prefix
-    return `${API_URL}/api/${cleanEndpoint}`;
+    const result = `${API_URL}/api/${cleanEndpoint}`;
+    console.log('- Result (traditional):', result);
+    return result;
   }
 };
 
