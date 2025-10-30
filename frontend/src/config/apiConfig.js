@@ -56,9 +56,13 @@ export const buildApiUrl = (endpoint) => {
 // Debug info (always show for troubleshooting)
 console.log('🔧 API Config Debug:');
 console.log('- Hostname:', window.location.hostname);
-console.log('- API URL:', API_URL);
+console.log('- API URL:', `"${API_URL}"`);
 console.log('- API URL length:', API_URL.length);
+console.log('- API URL charCodeAt end-1:', API_URL.charCodeAt(API_URL.length - 1));
+console.log('- API URL charCodeAt end-2:', API_URL.charCodeAt(API_URL.length - 2));
+console.log('- API URL charCodeAt end-3:', API_URL.charCodeAt(API_URL.length - 3));
+console.log('- API URL charCodeAt end-4:', API_URL.charCodeAt(API_URL.length - 4));
 console.log('- API URL ends with /api:', API_URL.endsWith('/api'));
 console.log('- API URL ends with /api/:', API_URL.endsWith('/api/'));
-console.log('- VITE_API_URL:', import.meta.env.VITE_API_URL || 'Not set');
+console.log('- VITE_API_URL:', `"${import.meta.env.VITE_API_URL}"` || 'Not set');
 console.log('- DEV Mode:', import.meta.env.DEV);
