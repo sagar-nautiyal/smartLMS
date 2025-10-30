@@ -12,14 +12,14 @@ const getApiUrl = () => {
   
   // Auto-detect based on hostname (hostname takes priority over dev mode)
   if (hostname === '13.61.151.128') {
-    // AWS production
-    return 'http://13.61.151.128:3000';
+    // AWS production with Nginx reverse proxy
+    return 'http://13.61.151.128/api';
   } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
     // Local development
     return 'http://localhost:3000';
   } else {
-    // Default to current origin with port 3000 (works for any domain)
-    return `${window.location.protocol}//${hostname}:3000`;
+    // Default to current origin with /api path (works for any domain with reverse proxy)
+    return `${window.location.protocol}//${hostname}/api`;
   }
 };
 
@@ -30,7 +30,15 @@ export const API_URL = getApiUrl();
 export const buildApiUrl = (endpoint) => {
   // Remove leading slash if present
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-  return `${API_URL}/api/${cleanEndpoint}`;
+
+  // Check if API_URL already ends with /api (Nginx reverse proxy setup)
+  if (API_URL.endsWith('/api')) {
+    // API_URL already includes /api, just append the endpoint
+    return `${API_URL}/${cleanEndpoint}`;
+  } else {
+    // Traditional setup: add /api/ prefix
+    return `${API_URL}/api/${cleanEndpoint}`;
+  }
 };
 
 // Debug info (always show for troubleshooting)
