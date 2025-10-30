@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { clearCartState } from "../../reducer/CartReducer";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { buildApiUrl } from "../../config/apiConfig";
 
 export default function CheckoutSuccessPage() {
   const dispatch = useDispatch();
@@ -15,12 +16,11 @@ export default function CheckoutSuccessPage() {
     const enrollUserInCourses = async () => {
       try {
         const token = localStorage.getItem("token");
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
         
         console.log("Enrolling user in courses...");
         
         const response = await axios.post(
-          `${apiUrl}/api/payment/enroll-after-payment`,
+          buildApiUrl("payment/enroll-after-payment"),
           {},
           {
             headers: { Authorization: `Bearer ${token}` }

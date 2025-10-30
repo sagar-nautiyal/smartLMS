@@ -6,6 +6,7 @@ import { createPaymentIntentThunk } from "../reducer/PaymentReducer";
 import { toast } from "react-toastify";
 import { CheckoutForm } from "../components/course/CheckoutForm";
 import axios from "axios";
+import { buildApiUrl } from "../config/apiConfig";
 const stripeKey = import.meta.env.VITE_PUBLIC_STRIPE_KEY;
 console.log('Debug - Stripe Key:', stripeKey ? 'Key found' : 'Key missing', stripeKey?.substring(0, 10) + '...');
 const stripePromise = loadStripe(stripeKey);
@@ -18,8 +19,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     const fetchCart = async () => {
       const token = localStorage.getItem("token");
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
-      const res = await axios.get(`${apiUrl}/api/cart`, {
+      const res = await axios.get(buildApiUrl("cart"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCart(res.data); // cart contains courses[] and totalPrice

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { updateUser } from "../services/userServices";
+import { buildApiUrl } from "../config/apiConfig";
 
 const getInitialState = () => {
   const token = localStorage.getItem("token");
@@ -19,9 +20,8 @@ export const loginthunk = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await axios.post(
-        `${apiUrl}/api/users/login`,
+        buildApiUrl("users/login"),
         { email, password }
       );
       return response.data;
@@ -37,9 +37,8 @@ export const registerUser = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       // 🔑 Replace with your API endpoint
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const res = await axios.post(
-        `${apiUrl}/api/users/register`,
+        buildApiUrl("users/register"),
         formData
       );
       return res.data; // expected: { user, token }
@@ -57,8 +56,7 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
-      const response = await axios.get(`${apiUrl}/api/users/me`, {
+      const response = await axios.get(buildApiUrl("users/me"), {
         headers: {
           Authorization: `Bearer ${token}`,
         },

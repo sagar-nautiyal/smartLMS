@@ -1,9 +1,10 @@
 import axios from "axios";
+import { buildApiUrl } from "../config/apiConfig";
+
 export const createPaymentIntent = async (amount) => {
   const token = localStorage.getItem("token");
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
   const res = await axios.post(
-    `${apiUrl}/api/payment/create-payment-intent`,
+    buildApiUrl("payment/create-payment-intent"),
     {
       amount,
     },
