@@ -85,11 +85,7 @@ function Login() {
                 />
               </div>
 
-              <div className="d-flex justify-content-end mb-3">
-                <Link to="#" className="small text-decoration-none">
-                  Forgot password?
-                </Link>
-              </div>
+
 
               <button type="submit" className="btn btn-primary w-100 mb-3">
                 Login

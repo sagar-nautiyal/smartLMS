@@ -33,6 +33,10 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    imageUrl: {
+      type: String,
+      default: "https://via.placeholder.com/400x250?text=Course+Image"
+    },
     price: {
       type: Number,
       required: true,
