@@ -1,9 +1,10 @@
 import axios from "axios";
+import { buildApiUrl } from "../config/apiConfig";
+
 export const updateUser = async (name, email) => {
   const token = localStorage.getItem("token");
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
   const res = await axios.put(
-    `${apiUrl}/api/users/profile`,
+    buildApiUrl("users/profile"),
     {
       name,
       email,

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { filterCategories } from "../services/Categories";
 import axios from "axios";
+import { buildApiUrl } from "../config/apiConfig";
 
 const INTITIALSTATE = {
   currentCourse: null,
@@ -14,8 +15,7 @@ export const getCourse = createAsyncThunk(
   "course/getCourse",
   async (_, { rejectWithValue }) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
-      const response = await axios.get(`${apiUrl}/api/courses`);
+      const response = await axios.get(buildApiUrl("courses"));
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -28,9 +28,8 @@ export const fetchCurrentCourse = createAsyncThunk(
   "courses/fetchCurrent",
   async ({ courseId }, rejectWithValue) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await axios.get(
-        `${apiUrl}/api/courses/${courseId}`
+        buildApiUrl(`courses/${courseId}`)
       );
       return response.data;
     } catch (err) {
@@ -45,9 +44,8 @@ export const fetchUserCourses = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await axios.get(
-        `${apiUrl}/api/courses/my-courses`,
+        buildApiUrl("courses/my-courses"),
         {
           headers: {
             Authorization: `Bearer ${token}`,

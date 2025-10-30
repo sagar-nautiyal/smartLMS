@@ -8,6 +8,7 @@ import { fetchCurrentCourse } from "../reducer/CourseReducer";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { addToCart } from "../reducer/CartReducer";
+import { buildApiUrl } from "../config/apiConfig";
 export default function CourseDetailPage() {
   //to fetch the current selected course
   const { courseId } = useParams();
@@ -34,9 +35,8 @@ export default function CourseDetailPage() {
 
   const handleBuyNow = async () => {
     const token = localStorage.getItem("token");
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
     await axios.post(
-      `${apiUrl}/api/cart/${currentCourse._id}`,
+      buildApiUrl(`cart/${currentCourse._id}`),
       { quantity: 1 },
       { headers: { Authorization: `Bearer ${token}` } }
     );
