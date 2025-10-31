@@ -47,6 +47,7 @@ export default class PaymentController {
   async enrollAfterPayment(req, res) {
     try {
       const userId = req.user.id;
+  // ...
 
       // Get user's cart (if it still exists)
       const cart = await Cart.findOne({ userId }).populate("courses.courseId");
@@ -62,6 +63,8 @@ export default class PaymentController {
 
       // Enroll user in all courses from cart
       for (const cartItem of cart.courses) {
+  // ...
+
         const course = await Course.findById(cartItem.courseId._id);
 
         if (course && !course.enrolledStudents.includes(userId)) {
@@ -78,11 +81,14 @@ export default class PaymentController {
       cart.totalPrice = 0;
       await cart.save();
 
+  // ...
+
       return res.status(200).json({
         message: "Successfully enrolled in courses",
         enrolledCourses: enrolledCourses,
       });
     } catch (error) {
+      console.error("Enrollment error caught:", error);
       return res
         .status(500)
         .json({ message: "Internal server error", error: error.message });

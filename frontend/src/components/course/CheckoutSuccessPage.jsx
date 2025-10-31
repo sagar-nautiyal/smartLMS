@@ -16,27 +16,46 @@ export default function CheckoutSuccessPage() {
     const enrollUserInCourses = async () => {
       try {
         const token = localStorage.getItem("token");
-        
-        console.log("Enrolling user in courses...");
-        
+
+  // ...
+
         const response = await axios.post(
           buildApiUrl("payment/enroll-after-payment"),
           {},
           {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        
-        console.log("Enrollment response:", response.data);
-        
+
+  // ...
+
+        // Validate response structure
+        if (
+          !response.data ||
+          !response.data.message ||
+          !Array.isArray(response.data.enrolledCourses)
+        ) {
+          throw new Error("Invalid enrollment response structure");
+        }
+
         // Clear the cart state in frontend after successful enrollment
         dispatch(clearCartState());
         setEnrollmentSuccess(true);
-        toast.success(`Payment successful! Enrolled in courses: ${response.data.enrolledCourses?.join(", ")}`);
-        
+
+        // Safely handle enrolledCourses array
+        const enrolledCourseNames =
+          response.data.enrolledCourses.length > 0
+            ? response.data.enrolledCourses.join(", ")
+            : "your courses";
+
+        toast.success(
+          `Payment successful! Enrolled in courses: ${enrolledCourseNames}`
+        );
       } catch (error) {
         console.error("Enrollment error:", error);
-        toast.error("Payment successful, but there was an issue enrolling in courses. Please contact support.");
+        toast.error(
+          "Payment successful, but there was an issue enrolling in courses. Please contact support."
+        );
       } finally {
         setEnrolling(false);
       }
@@ -62,14 +81,17 @@ export default function CheckoutSuccessPage() {
   return (
     <div className="container mt-5 text-center">
       <div className="card shadow-sm p-5">
-        <h2 className={`mb-3 ${enrollmentSuccess ? 'text-success' : 'text-warning'}`}>
-          {enrollmentSuccess ? '✅ Payment Successful!' : '⚠️ Payment Received'}
+        <h2
+          className={`mb-3 ${
+            enrollmentSuccess ? "text-success" : "text-warning"
+          }`}
+        >
+          {enrollmentSuccess ? "✅ Payment Successful!" : "⚠️ Payment Received"}
         </h2>
         <p className="lead">
-          {enrollmentSuccess 
-            ? 'Thank you for your purchase, your courses are now unlocked.'
-            : 'Your payment was processed, but there was an issue with enrollment.'
-          }
+          {enrollmentSuccess
+            ? "Thank you for your purchase, your courses are now unlocked."
+            : "Your payment was processed, but there was an issue with enrollment."}
         </p>
         {enrollmentSuccess && (
           <p className="text-muted mb-4">
@@ -81,7 +103,9 @@ export default function CheckoutSuccessPage() {
         </Link>
         {!enrollmentSuccess && (
           <p className="text-muted mt-3">
-            <small>If you continue to have issues, please contact support.</small>
+            <small>
+              If you continue to have issues, please contact support.
+            </small>
           </p>
         )}
       </div>
