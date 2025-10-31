@@ -17,11 +17,7 @@ export default function CheckoutSuccessPage() {
       try {
         const token = localStorage.getItem("token");
 
-<<<<<<< HEAD
-  // ...
-=======
-        console.log("Enrolling user in courses...");
->>>>>>> f03c345276fe558faebe2c790bcf1131b326698e
+        // ...
 
         const response = await axios.post(
           buildApiUrl("payment/enroll-after-payment"),
@@ -31,11 +27,7 @@ export default function CheckoutSuccessPage() {
           }
         );
 
-<<<<<<< HEAD
-  // ...
-=======
-        console.log("Enrollment response:", response.data);
->>>>>>> f03c345276fe558faebe2c790bcf1131b326698e
+        // ...
 
         // Validate response structure
         if (
