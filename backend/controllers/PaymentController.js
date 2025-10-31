@@ -47,7 +47,11 @@ export default class PaymentController {
   async enrollAfterPayment(req, res) {
     try {
       const userId = req.user.id;
+<<<<<<< HEAD
   // ...
+=======
+      console.log("Starting enrollment for user:", userId);
+>>>>>>> f03c345276fe558faebe2c790bcf1131b326698e
 
       // Get user's cart (if it still exists)
       const cart = await Cart.findOne({ userId }).populate("courses.courseId");
@@ -63,7 +67,11 @@ export default class PaymentController {
 
       // Enroll user in all courses from cart
       for (const cartItem of cart.courses) {
+<<<<<<< HEAD
   // ...
+=======
+        console.log("Processing course:", cartItem.courseId?._id);
+>>>>>>> f03c345276fe558faebe2c790bcf1131b326698e
 
         const course = await Course.findById(cartItem.courseId._id);
 
@@ -81,7 +89,11 @@ export default class PaymentController {
       cart.totalPrice = 0;
       await cart.save();
 
+<<<<<<< HEAD
   // ...
+=======
+      console.log("Enrollment success, sending response");
+>>>>>>> f03c345276fe558faebe2c790bcf1131b326698e
 
       return res.status(200).json({
         message: "Successfully enrolled in courses",

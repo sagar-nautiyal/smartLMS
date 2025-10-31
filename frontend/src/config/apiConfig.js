@@ -42,13 +42,12 @@ export const buildApiUrl = (endpoint) => {
   if (endsWithApi) {
     // API_URL already includes /api, just append the endpoint
     const result = `${API_URL}/${cleanEndpoint}`;
-  // ...
+    // ...
     return result;
   } else {
     // Traditional setup: add /api/ prefix
     const result = `${API_URL}/api/${cleanEndpoint}`;
-  // ...
+    // ...
     return result;
   }
 };
-
